@@ -5,7 +5,7 @@ import Link from "next/link";
 const HeroSection = () => {
   return (
     <div className=" h-screen">
-      <div className="flex flex-col justify-center items-center  gap-5 bg-[#969696] h-[90%]">
+      <div className="flex flex-col justify-center items-center  gap-5 bg-[#969696] h-[87%]">
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold">
           Empowering Our Communities
         </h1>

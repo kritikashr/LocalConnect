@@ -4,7 +4,7 @@ import React from "react";
 const Navbar = () => {
   return (
     <>
-      <div className="flex justify-between w-full  p-4 px-12 sticky top-0 left-0 bg-white">
+      <div className="flex justify-between w-full  p-4 px-22 sticky top-0 left-0 bg-white">
         <div>Logo</div>
         <div className="flex gap-7">
           <Link href={"/"}>Home</Link>
