@@ -111,11 +111,9 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+  h2 {
+    @apply text-3xl md:text-[40px] lg:text-5xl font-semibold;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
+ 
 }
 
