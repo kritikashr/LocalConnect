@@ -5,7 +5,7 @@ import { IoNewspaperOutline } from "react-icons/io5";
 const FeaturesSection = () => {
   return (
     <div className="flex flex-col justify-center items-center px-12">
-      <h2 className="text-[43px] font-bold">Core Features</h2>
+      <h2 >Core Features</h2>
       <div className=" flex gap-10">
         <FrontCard
           title="Request Services"
