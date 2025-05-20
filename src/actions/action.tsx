@@ -1,8 +1,7 @@
 "use server"
 
-export async function submitSignupForm(fromData : FormData)
+export async function submitEmailForm(formData : FormData)
 {
-    const email = fromData.get("email");
-    const message = fromData.get("message");
-    console.log(email, message);
+    const email = formData.get("email");
+    console.log(email);
 }
