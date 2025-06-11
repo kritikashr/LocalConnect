@@ -3,8 +3,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TNoticeSchema, noticeSchema } from "@/lib/types";
+import { TNoticeSchema, noticeSchema } from "@/lib/validation";
 import { Button } from "../ui/button";
+import { createNotice } from "@/lib/api";
 
 const NoticeForm = () => {
   const {
@@ -16,8 +17,9 @@ const NoticeForm = () => {
     resolver: zodResolver(noticeSchema),
   });
 
-  const onSubmit = (data: TNoticeSchema) => {
+  const onSubmit = async (data: TNoticeSchema) => {
     console.log("New Notice:", data);
+    await createNotice(data);
     reset();
   };
 
@@ -82,14 +84,12 @@ const NoticeForm = () => {
       <div className="flex flex-col gap-2 w-full">
         <label htmlFor="timestamp">Timestamp</label>
         <input
-          {...register("timestamp")}
+          {...register("date")}
           type="datetime-local"
           id="timestamp"
           className="p-2 py-3 border rounded border-[#00000066]"
         />
-        {errors.timestamp && (
-          <p className="text-red-500">{errors.timestamp.message}</p>
-        )}
+        {errors.date && <p className="text-red-500">{errors.date.message}</p>}
       </div>
 
       <Button type="submit" disabled={isSubmitting}>

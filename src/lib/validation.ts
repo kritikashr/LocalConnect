@@ -27,7 +27,7 @@ export const noticeSchema = z.object({
   description: z.string().min(5, { message: "Description is too short" }),
   location: z.string().min(3, { message: "Location is required" }),
   contact: z.string().min(5, { message: "Contact is required" }),
-  timestamp: z.string().min(1, { message: "Timestamp is required" }),
+  date: z.string().min(1, { message: "Timestamp is required" }),
 });
 
 export type TNoticeSchema = z.infer<typeof noticeSchema>;

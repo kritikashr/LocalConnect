@@ -1,16 +1,15 @@
-'use client'
+"use client";
 import React from "react";
 import { Button } from "../ui/button";
-import {  useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signupSchema, TSignupSchema } from "@/lib/types";
-
+import { signupSchema, TSignupSchema } from "@/lib/validation";
 
 const SignupForm = () => {
   const {
     register,
     handleSubmit,
-    formState : {errors, isSubmitting},
+    formState: { errors, isSubmitting },
     reset,
   } = useForm<TSignupSchema>({
     resolver: zodResolver(signupSchema),
@@ -36,7 +35,7 @@ const SignupForm = () => {
           placeholder="Full Name"
           className="p-2 py-3 border-1 rounded border-[#00000066]"
         />
-        {errors.name&&(
+        {errors.name && (
           <p className="text-red-500">{`${errors.name.message}`}</p>
         )}
       </div>
@@ -50,7 +49,7 @@ const SignupForm = () => {
           placeholder="Enter your email"
           className="p-2 py-3 border-1 rounded border-[#00000066]"
         />
-        {errors.email &&(
+        {errors.email && (
           <p className="text-red-500">{`${errors.email.message}`}</p>
         )}
       </div>
@@ -64,7 +63,7 @@ const SignupForm = () => {
           placeholder="Enter your mobile number"
           className="p-2 py-3 border-1 rounded border-[#00000066]"
         />
-        {errors.phoneNumber &&(
+        {errors.phoneNumber && (
           <p className="text-red-500">{`${errors.phoneNumber.message}`}</p>
         )}
       </div>
@@ -78,7 +77,7 @@ const SignupForm = () => {
           placeholder="Password"
           className="p-2 py-3 border-1 rounded border-[#00000066]"
         />
-        {errors.password &&(
+        {errors.password && (
           <p className="text-red-500">{`${errors.password.message}`}</p>
         )}
       </div>
@@ -92,7 +91,7 @@ const SignupForm = () => {
           placeholder="Confirm Password"
           className="p-2 py-3 border-1 rounded border-[#00000066]"
         />
-        {errors.confirmPassword &&(
+        {errors.confirmPassword && (
           <p className="text-red-500">{`${errors.confirmPassword.message}`}</p>
         )}
       </div>

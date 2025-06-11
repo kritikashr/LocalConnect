@@ -1,8 +1,9 @@
+import NewsCard from '@/components/News/NewsCard'
 import React from 'react'
 
 const page = () => {
   return (
-    <div>page</div>
+    <div><NewsCard/></div>
   )
 }
 
