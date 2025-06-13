@@ -81,7 +81,7 @@ const NoticeForm = () => {
         )}
       </div>
 
-      <div className="flex flex-col gap-2 w-full">
+      {/* <div className="flex flex-col gap-2 w-full">
         <label htmlFor="timestamp">Timestamp</label>
         <input
           {...register("date")}
@@ -90,7 +90,7 @@ const NoticeForm = () => {
           className="p-2 py-3 border rounded border-[#00000066]"
         />
         {errors.date && <p className="text-red-500">{errors.date.message}</p>}
-      </div>
+      </div> */}
 
       <Button type="submit" disabled={isSubmitting}>
         Submit Notice
