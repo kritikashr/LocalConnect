@@ -95,7 +95,7 @@ const SignupForm = () => {
           <p className="text-red-500">{`${errors.confirmPassword.message}`}</p>
         )}
       </div>
-      <Button type="submit">Sign Up</Button>
+      <Button type="submit" disabled={isSubmitting}>Sign Up</Button>
     </form>
   );
 };

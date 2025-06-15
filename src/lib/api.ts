@@ -51,7 +51,6 @@ async function fetchAPI<T = any>(
     throw new Error(`Error ${res.status}: ${message}`);
   }
 
-  // ✅ Skip JSON parsing if DELETE or 204 No Content
   if (options?.method === "DELETE" || res.status === 204) {
     return {} as T;
   }
