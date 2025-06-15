@@ -3,9 +3,14 @@ import React, { use } from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { format } from "date-fns";
+import DeleteButton from "../ui/DeleteButton";
+import { DeleteButtonWrapper } from "../ui/DeleteButtonWrapper";
 
 const ManageNews: React.FC = () => {
   const notices = use(getNotices());
+  const refreshPage = () => {
+    window.location.reload();
+  };
   return (
     <div className="p-4">
       <Link href="/admin/addNews">
@@ -33,6 +38,9 @@ const ManageNews: React.FC = () => {
               <td className="border px-3 py-1">{notice.description}</td>
               <td className="border px-3 py-1">{notice.location}</td>
               <td className="border px-3 py-1">{notice.contact}</td>
+              <td className="border px-3 py-1 text-center">
+                <DeleteButtonWrapper id={notice.id}  />
+              </td>
             </tr>
           ))}
         </tbody>
