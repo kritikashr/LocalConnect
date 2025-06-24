@@ -51,16 +51,29 @@ async function fetchAPI<T = any>(
     throw new Error(`Error ${res.status}: ${message}`);
   }
 
+  if (options?.method === "DELETE" || res.status === 204) {
+    return {} as T;
+  }
+
   return res.json();
 }
 
+// Get all notices
 export async function getNotices(): Promise<Notice[]> {
   return fetchAPI<Notice[]>("/api/News");
 }
 
+// Create a notice
 export async function createNotice(notice: TNoticeSchema): Promise<Notice> {
   return fetchAPI<Notice>("/api/News", {
     method: "POST",
     body: JSON.stringify(notice),
+  });
+}
+
+// Delete a notice
+export async function deleteNotice(id: number): Promise<void> {
+  await fetchAPI<void>(`/api/News/${id}`, {
+    method: "DELETE",
   });
 }

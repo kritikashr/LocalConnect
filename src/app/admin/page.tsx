@@ -1,8 +1,15 @@
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
-const page = () => {
+
+const  page = async () => {
+  const session = await getServerSession(authOptions);
+
+  if (session?.user.role !== "admin") return <p>Access Denied</p>;
   return (
     <div>
       <h2>Admin Page</h2>

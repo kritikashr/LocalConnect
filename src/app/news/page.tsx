@@ -1,10 +1,14 @@
-import NewsCard from '@/components/News/NewsCard'
-import React from 'react'
+import NewsCard from "@/components/News/NewsCard";
+import React, { Suspense } from "react";
 
 const page = () => {
   return (
-    <div><NewsCard/></div>
-  )
-}
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <NewsCard />
+      </Suspense>
+    </div>
+  );
+};
 
-export default page
+export default page;

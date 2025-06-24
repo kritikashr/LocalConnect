@@ -27,7 +27,12 @@ export const noticeSchema = z.object({
   description: z.string().min(5, { message: "Description is too short" }),
   location: z.string().min(3, { message: "Location is required" }),
   contact: z.string().min(5, { message: "Contact is required" }),
-  date: z.string().min(1, { message: "Timestamp is required" }),
 });
 
 export type TNoticeSchema = z.infer<typeof noticeSchema>;
+
+export const adminLoginSchema = z.object({
+  username: z.string().min(1, { message: "Username is required" }),
+  password: z.string().min(8, { message: "Password must be at least 8 characters" }),
+});
+export type TAdminLoginSchema = z.infer<typeof adminLoginSchema>;

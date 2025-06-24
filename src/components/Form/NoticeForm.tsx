@@ -6,8 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { TNoticeSchema, noticeSchema } from "@/lib/validation";
 import { Button } from "../ui/button";
 import { createNotice } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
 const NoticeForm = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -21,6 +23,7 @@ const NoticeForm = () => {
     console.log("New Notice:", data);
     await createNotice(data);
     reset();
+    router.push("/admin/news");
   };
 
   return (
@@ -79,17 +82,6 @@ const NoticeForm = () => {
         {errors.contact && (
           <p className="text-red-500">{errors.contact.message}</p>
         )}
-      </div>
-
-      <div className="flex flex-col gap-2 w-full">
-        <label htmlFor="timestamp">Timestamp</label>
-        <input
-          {...register("date")}
-          type="datetime-local"
-          id="timestamp"
-          className="p-2 py-3 border rounded border-[#00000066]"
-        />
-        {errors.date && <p className="text-red-500">{errors.date.message}</p>}
       </div>
 
       <Button type="submit" disabled={isSubmitting}>
