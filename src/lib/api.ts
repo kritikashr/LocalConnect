@@ -1,8 +1,10 @@
 import { Notice } from "./type";
-import { TNoticeSchema } from "./validation";
+import { TNoticeSchema, TSignupSchema } from "./validation";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL;
-
+ 
+// Function to fetch data with a timeout
+// This function will abort the request if it takes longer than the specified timeout
 async function fetchWithTimeout(
   url: string,
   options: RequestInit = {},
@@ -27,6 +29,8 @@ async function fetchWithTimeout(
   }
 }
 
+// Generic function to fetch data from the API
+// It handles different HTTP methods and returns the parsed JSON response
 async function fetchAPI<T = any>(
   path: string,
   options?: RequestInit,
@@ -75,5 +79,13 @@ export async function createNotice(notice: TNoticeSchema): Promise<Notice> {
 export async function deleteNotice(id: number): Promise<void> {
   await fetchAPI<void>(`/api/News/${id}`, {
     method: "DELETE",
+  });
+}
+
+// insert a user
+export async function insertUser(user : TSignupSchema): Promise<void> {
+  await fetchAPI<void>("/api/Auth/register-citizen", {
+    method: "POST",
+    body: JSON.stringify(user),
   });
 }

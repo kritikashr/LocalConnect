@@ -20,7 +20,7 @@ const NoticeForm = () => {
   });
 
   const onSubmit = async (data: TNoticeSchema) => {
-    console.log("New Notice:", data);
+    // console.log("New Notice:", data);
     await createNotice(data);
     reset();
     router.push("/admin/news");

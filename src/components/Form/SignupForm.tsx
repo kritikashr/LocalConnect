@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signupSchema, TSignupSchema } from "@/lib/validation";
+import { insertUser } from "@/lib/api";
 
 const SignupForm = () => {
   const {
@@ -15,9 +16,11 @@ const SignupForm = () => {
     resolver: zodResolver(signupSchema),
   });
 
-  const onSubmit = (data: TSignupSchema) => {
+  const onSubmit = async(data: TSignupSchema) => {
     console.log(data);
+    await insertUser(data);
     reset();
+    alert("Success full")
   };
 
   return (
