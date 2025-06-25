@@ -31,10 +31,10 @@ export const noticeSchema = z.object({
 
 export type TNoticeSchema = z.infer<typeof noticeSchema>;
 
-export const adminLoginSchema = z.object({
-  username: z.string().min(1, { message: "Username is required" }),
+export const loginSchema = z.object({
+  email: z.string().min(1, { message: "User email is required" }).email(),
   password: z
     .string()
     .min(8, { message: "Password must be at least 8 characters" }),
 });
-export type TAdminLoginSchema = z.infer<typeof adminLoginSchema>;
+export type TLoginSchema = z.infer<typeof loginSchema>;

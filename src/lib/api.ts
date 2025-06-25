@@ -1,5 +1,5 @@
 import { Notice } from "./type";
-import { TNoticeSchema, TSignupSchema } from "./validation";
+import { TLoginSchema, TNoticeSchema, TSignupSchema } from "./validation";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL;
  
@@ -88,4 +88,14 @@ export async function insertUser(user : TSignupSchema): Promise<void> {
     method: "POST",
     body: JSON.stringify(user),
   });
+}
+
+// user login
+export async function userLogin(user: TLoginSchema): Promise<{ message: string }> {
+  const response = await fetchAPI<{ message: string }>("/api/Auth/login", {
+    method: "POST",
+    body: JSON.stringify(user),
+    credentials: "include",
+  });
+  return response;
 }

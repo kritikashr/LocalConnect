@@ -2,21 +2,22 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { adminLoginSchema, TAdminLoginSchema } from "@/lib/validation";
+import { loginSchema, TLoginSchema } from "@/lib/validation";
 import { Button } from "../ui/button";
+import { userLogin } from "@/lib/api";
 
-const AdminLogin = () => {
+const Login = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<TAdminLoginSchema>({
-    resolver: zodResolver(adminLoginSchema),
+  } = useForm<TLoginSchema>({
+    resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data: TAdminLoginSchema) => {
-    console.log(data);
+  const  onSubmit = async(data: TLoginSchema) => {
+    await userLogin(data);
     reset();
   };
 
@@ -33,16 +34,16 @@ const AdminLogin = () => {
           Username
         </label>
         <input
-          {...register("username")}
+          {...register("email")}
           id="username"
           type="text"
           placeholder="Enter your username"
           className={`p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-            errors.username ? "border-red-500" : "border-gray-300"
+            errors.email ? "border-red-500" : "border-gray-300"
           }`}
         />
-        {errors.username && (
-          <p className="text-red-500 mt-1 text-sm">{errors.username.message}</p>
+        {errors.email && (
+          <p className="text-red-500 mt-1 text-sm">{errors.email.message}</p>
         )}
       </div>
 
@@ -74,4 +75,4 @@ const AdminLogin = () => {
   );
 };
 
-export default AdminLogin;
+export default Login;
