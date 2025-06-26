@@ -1,9 +1,9 @@
-import NewsCard from '@/components/News/NewsCard'
+import NoticeForm from '@/components/Form/NoticeForm'
 import React from 'react'
 
 const page = () => {
   return (
-    <div><NewsCard/></div>
+    <div><NoticeForm/></div>
   )
 }
 
