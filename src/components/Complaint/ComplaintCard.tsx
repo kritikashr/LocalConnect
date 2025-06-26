@@ -3,7 +3,7 @@
 import * as React from "react";
 import { complaints } from "@/lib/complaint";
 import { GrLocationPin } from "react-icons/gr";
-import { DropdownRadioFilter } from "./DropdownRadioFilter"; 
+import { DropdownRadioFilter } from "../ui/DropdownRadioFilter"; 
 
 const categoryOptions = [
   { label: "All Categories", value: "" },

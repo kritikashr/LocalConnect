@@ -15,7 +15,7 @@ export const signupSchema = z
       .string()
       .min(8, { message: "Please re-enter your password" }),
   })
-  .refine((data) => data.confirmPassword, {
+  .refine((data) => data.password === data.confirmPassword, {
     message: "Password must match",
     path: ["confirmPassword"],
   });
@@ -27,7 +27,14 @@ export const noticeSchema = z.object({
   description: z.string().min(5, { message: "Description is too short" }),
   location: z.string().min(3, { message: "Location is required" }),
   contact: z.string().min(5, { message: "Contact is required" }),
-  date: z.string().min(1, { message: "Timestamp is required" }),
 });
 
 export type TNoticeSchema = z.infer<typeof noticeSchema>;
+
+export const loginSchema = z.object({
+  email: z.string().min(1, { message: "User email is required" }).email(),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters" }),
+});
+export type TLoginSchema = z.infer<typeof loginSchema>;
