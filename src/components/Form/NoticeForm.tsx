@@ -7,9 +7,11 @@ import { TNoticeSchema, noticeSchema } from "@/lib/validation";
 import { Button } from "../ui/button";
 import { createNotice } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const NoticeForm = () => {
   const router = useRouter();
+  const { data: session } = useSession();
   const {
     register,
     handleSubmit,
@@ -20,10 +22,18 @@ const NoticeForm = () => {
   });
 
   const onSubmit = async (data: TNoticeSchema) => {
-    console.log("New Notice:", data);
-    await createNotice(data);
-    reset();
-    router.push("/admin/news");
+    // console.log("New Notice:", data);
+
+    try {
+      const token = session?.accessToken;
+      if (!token) throw new Error("User not authenticated");
+
+      await createNotice(data, token);
+      reset();
+      router.push("/admin/news");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

@@ -1,3 +1,4 @@
+import { ca } from "date-fns/locale";
 import { z } from "zod";
 
 export const signupSchema = z
@@ -15,7 +16,7 @@ export const signupSchema = z
       .string()
       .min(8, { message: "Please re-enter your password" }),
   })
-  .refine((data) => data.confirmPassword, {
+  .refine((data) => data.password === data.confirmPassword, {
     message: "Password must match",
     path: ["confirmPassword"],
   });
@@ -31,8 +32,27 @@ export const noticeSchema = z.object({
 
 export type TNoticeSchema = z.infer<typeof noticeSchema>;
 
-export const adminLoginSchema = z.object({
-  username: z.string().min(1, { message: "Username is required" }),
-  password: z.string().min(8, { message: "Password must be at least 8 characters" }),
+export const loginSchema = z.object({
+  email: z.string().min(1, { message: "User email is required" }).email(),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters" }),
 });
-export type TAdminLoginSchema = z.infer<typeof adminLoginSchema>;
+export type TLoginSchema = z.infer<typeof loginSchema>;
+
+export const requestSchema = z.object({
+  title : z.string().min(3,{ message: "Title is required"}),
+  description : z.string().min(3,{ message: "Description is required"}),
+  serviceCategory : z.string().min(1, { message: "Service category is required" }),
+})
+
+export type TRequestSchema = z.infer<typeof requestSchema>;
+
+export const complaintSchema = z.object({
+  description : z.string().min(3,{ message: "Description is required"}),
+  priority : z.string().min(1, { message: "Priority is required" }),
+  category : z.string().min(1, { message: "Category is required" }),
+  status : z.string().min(1, { message: "Status is required" }),
+})
+
+export type TComplaintSchema = z.infer<typeof complaintSchema>;

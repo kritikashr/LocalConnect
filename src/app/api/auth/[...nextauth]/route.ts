@@ -1,9 +1,18 @@
-
-import { NextAuthOptions } from "next-auth";
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions, User as NextAuthUser } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-export const authOptions: NextAuthOptions  = {
+
+declare module "next-auth" {
+  interface User {
+    accessToken?: string;
+    role?: string;
+    id?: string;
+    name?: string;
+    email?: string;
+  }
+}
+
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -12,32 +21,65 @@ export const authOptions: NextAuthOptions  = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        // For demo, accept one admin user
-        if (
-          credentials?.email === "admin@example.com" &&
-          credentials?.password === "admin123"
-        ) {
-          return { id: "1", name: "Admin User", email: credentials.email, role: "admin" };
+        try {
+          const res = await fetch("http://localhost:5000/api/admin/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: credentials?.email,
+              password: credentials?.password,
+            }),
+          });
+
+          if (!res.ok) return null;
+
+          const user = await res.json();
+
+          if (user && user.token && user.email && user.role) {
+            return {
+              id: user.id.toString(),
+              name: user.name,
+              email: user.email,
+              role: user.role,
+              accessToken: user.token,
+            };
+          }
+          return null;
+        } catch (error) {
+          console.error("Authorize error:", error);
+          return null;
         }
-        return null;
       },
     }),
   ],
+
   callbacks: {
-    async jwt({ token, user }: { token: any; user?: { role?: string } }) {
+    async jwt({ token, user }) {
       if (user) {
-        token.role = user.role;
+        token.accessToken = user.accessToken ?? "";
+        token.role = user.role ?? "";
+        token.email = user.email ?? "";
+        token.name = user.name ?? "";
+        token.id = user.id ?? "";
       }
       return token;
     },
-    async session({ session, token }: { session: any; token: any }) {
-      if (token && session.user) {
-        session.user.role = token.role;
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.email = token.email ?? "";
+        session.user.role = token.role ?? "";
+        session.user.name = token.name ?? "";
+        session.user.id = token.id ?? "";
+        session.accessToken = token.accessToken ?? "";
       }
       return session;
     },
   },
-  session: { strategy: "jwt" },
+
+  session: {
+    strategy: "jwt",
+  },
+
   secret: process.env.NEXTAUTH_SECRET,
 };
 

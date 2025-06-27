@@ -118,3 +118,12 @@
     @apply text-2xl md:text-3xl lg:text-4xl font-semibold;
   }
 }
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

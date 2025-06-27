@@ -4,8 +4,11 @@ import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signupSchema, TSignupSchema } from "@/lib/validation";
+import { insertUser } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
 const SignupForm = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -15,9 +18,12 @@ const SignupForm = () => {
     resolver: zodResolver(signupSchema),
   });
 
-  const onSubmit = (data: TSignupSchema) => {
+  const onSubmit = async (data: TSignupSchema) => {
     console.log(data);
+    await insertUser(data);
     reset();
+    alert("Registered successfully.");
+    router.push("/login");
   };
 
   return (
@@ -95,7 +101,9 @@ const SignupForm = () => {
           <p className="text-red-500">{`${errors.confirmPassword.message}`}</p>
         )}
       </div>
-      <Button type="submit" disabled={isSubmitting}>Sign Up</Button>
+      <Button type="submit" disabled={isSubmitting}>
+        Sign Up
+      </Button>
     </form>
   );
 };
