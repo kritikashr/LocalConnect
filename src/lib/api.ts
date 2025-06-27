@@ -1,8 +1,10 @@
 import { Notice } from "./type";
 import { TLoginSchema, TNoticeSchema, TSignupSchema } from "./validation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL;
- 
+
 // Function to fetch data with a timeout
 // This function will abort the request if it takes longer than the specified timeout
 async function fetchWithTimeout(
@@ -68,9 +70,15 @@ export async function getNotices(): Promise<Notice[]> {
 }
 
 // Create a notice
-export async function createNotice(notice: TNoticeSchema): Promise<Notice> {
+export async function createNotice(
+  notice: TNoticeSchema,
+  token: string
+): Promise<Notice> {
   return fetchAPI<Notice>("/api/News", {
     method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify(notice),
   });
 }
@@ -83,7 +91,7 @@ export async function deleteNotice(id: number): Promise<void> {
 }
 
 // insert a user
-export async function insertUser(user : TSignupSchema): Promise<void> {
+export async function insertUser(user: TSignupSchema): Promise<void> {
   await fetchAPI<void>("/api/Auth/register-citizen", {
     method: "POST",
     body: JSON.stringify(user),
@@ -91,11 +99,35 @@ export async function insertUser(user : TSignupSchema): Promise<void> {
 }
 
 // user login
-export async function userLogin(user: TLoginSchema): Promise<{ message: string }> {
+export async function userLogin(
+  user: TLoginSchema
+): Promise<{ message: string }> {
   const response = await fetchAPI<{ message: string }>("/api/Auth/login", {
     method: "POST",
     body: JSON.stringify(user),
     credentials: "include",
   });
   return response;
+}
+
+// user logout
+export async function userLogout(): Promise<void> {
+  await fetchAPI<void>("/api/Auth/logout", {
+    method: "POST",
+    credentials: "include",
+  });
+}
+
+// Get user details
+export async function fetchUser() {
+  try {
+    const res = await fetch("http://localhost:5000/api/Auth/me", {
+      credentials: "include",
+    });
+    if (!res.ok) throw new Error("Not logged in");
+    const data = await res.json();
+    return data.name;
+  } catch {
+    return null;
+  }
 }

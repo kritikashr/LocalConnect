@@ -1,9 +1,8 @@
-
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-export const authOptions: NextAuthOptions  = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -17,22 +16,38 @@ export const authOptions: NextAuthOptions  = {
           credentials?.email === "admin@example.com" &&
           credentials?.password === "admin123"
         ) {
-          return { id: "1", name: "Admin User", email: credentials.email, role: "admin" };
+          return {
+            id: "1",
+            name: "Admin User",
+            email: credentials.email,
+            role: "admin",
+            accessToken:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxIiwibmFtZSI6IkFkbWluIFVzZXIiLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjg4ODg4ODg4fQ.sK6Wq2J8_WpLMogxRtI67P4aUJ_faW6sCQ-j0bKGQMI",
+          };
         }
+
         return null;
       },
     }),
   ],
   callbacks: {
-    async jwt({ token, user }: { token: any; user?: { role?: string } }) {
+    async jwt({
+      token,
+      user,
+    }: {
+      token: any;
+      user?: { role?: string; accessToken?: string };
+    }) {
       if (user) {
         token.role = user.role;
+        token.accessToken = user.accessToken;
       }
       return token;
     },
     async session({ session, token }: { session: any; token: any }) {
       if (token && session.user) {
         session.user.role = token.role;
+        session.accessToken = token.accessToken;
       }
       return session;
     },
