@@ -1,5 +1,7 @@
 import { Notice } from "./type";
 import { TLoginSchema, TNoticeSchema, TSignupSchema } from "./validation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 
@@ -68,9 +70,15 @@ export async function getNotices(): Promise<Notice[]> {
 }
 
 // Create a notice
-export async function createNotice(notice: TNoticeSchema): Promise<Notice> {
+export async function createNotice(
+  notice: TNoticeSchema,
+  token: string
+): Promise<Notice> {
   return fetchAPI<Notice>("/api/News", {
     method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify(notice),
   });
 }
@@ -100,4 +108,26 @@ export async function userLogin(
     credentials: "include",
   });
   return response;
+}
+
+// user logout
+export async function userLogout(): Promise<void> {
+  await fetchAPI<void>("/api/Auth/logout", {
+    method: "POST",
+    credentials: "include",
+  });
+}
+
+// Get user details
+export async function fetchUser() {
+  try {
+    const res = await fetch("http://localhost:5000/api/Auth/me", {
+      credentials: "include",
+    });
+    if (!res.ok) throw new Error("Not logged in");
+    const data = await res.json();
+    return data.name;
+  } catch {
+    return null;
+  }
 }

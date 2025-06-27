@@ -1,3 +1,4 @@
+import { ca } from "date-fns/locale";
 import { z } from "zod";
 
 export const signupSchema = z
@@ -38,3 +39,20 @@ export const loginSchema = z.object({
     .min(8, { message: "Password must be at least 8 characters" }),
 });
 export type TLoginSchema = z.infer<typeof loginSchema>;
+
+export const requestSchema = z.object({
+  title : z.string().min(3,{ message: "Title is required"}),
+  description : z.string().min(3,{ message: "Description is required"}),
+  serviceCategory : z.string().min(1, { message: "Service category is required" }),
+})
+
+export type TRequestSchema = z.infer<typeof requestSchema>;
+
+export const complaintSchema = z.object({
+  description : z.string().min(3,{ message: "Description is required"}),
+  priority : z.string().min(1, { message: "Priority is required" }),
+  category : z.string().min(1, { message: "Category is required" }),
+  status : z.string().min(1, { message: "Status is required" }),
+})
+
+export type TComplaintSchema = z.infer<typeof complaintSchema>;

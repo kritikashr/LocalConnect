@@ -5,8 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, TLoginSchema } from "@/lib/validation";
 import { Button } from "../ui/button";
 import { userLogin } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -16,28 +18,23 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const  onSubmit = async(data: TLoginSchema) => {
+  const onSubmit = async (data: TLoginSchema) => {
     await userLogin(data);
     reset();
+    router.push("/");
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="max-w-md mx-auto p-6 mt-10 bg-white rounded shadow-md flex flex-col gap-6"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
       <div className="flex flex-col">
-        <label
-          htmlFor="username"
-          className="mb-2 font-semibold text-gray-700"
-        >
-          Username
+        <label htmlFor="email" className="mb-2 font-semibold text-gray-700">
+          Email
         </label>
         <input
           {...register("email")}
-          id="username"
+          id="email"
           type="text"
-          placeholder="Enter your username"
+          placeholder="Enter your email."
           className={`p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 ${
             errors.email ? "border-red-500" : "border-gray-300"
           }`}
@@ -48,10 +45,7 @@ const Login = () => {
       </div>
 
       <div className="flex flex-col">
-        <label
-          htmlFor="password"
-          className="mb-2 font-semibold text-gray-700"
-        >
+        <label htmlFor="password" className="mb-2 font-semibold text-gray-700">
           Password
         </label>
         <input

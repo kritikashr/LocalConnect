@@ -1,12 +1,9 @@
-import ManageNews from '@/components/Admin/ManageNews'
-import React from 'react'
+import ManageNews from "@/components/Admin/ManageNews";
 
-const page = () => {
+export default async function AdminPage() {
   return (
     <div>
-      <ManageNews/>
+      <ManageNews />
     </div>
-  )
+  );
 }
-
-export default page

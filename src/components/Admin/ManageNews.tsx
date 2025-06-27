@@ -12,11 +12,11 @@ const ManageNews: React.FC = () => {
     window.location.reload();
   };
   return (
-    <div className="p-4">
-      <Link href="/admin/addNews">
+    <div className="p-4 w-full">
+      <Link href="/admin/news/add">
         <Button className="my-5">Add News</Button>
       </Link>
-      <table className="min-w-full border border-gray-300 text-sm">
+      <table className="min-w-full border border-gray-300 text-sm w-full">
         <thead className="bg-gray-100">
           <tr>
             <th className="border px-3 py-2">ID</th>
@@ -25,6 +25,7 @@ const ManageNews: React.FC = () => {
             <th className="border px-3 py-2">Description</th>
             <th className="border px-3 py-2">Location</th>
             <th className="border px-3 py-2">Contact</th>
+            <th className="border px-3 py-2">Action</th>
           </tr>
         </thead>
         <tbody>
