@@ -1,8 +1,18 @@
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
-    return (
-      <div>
-        <main>{children}</main>
-      </div>
-    );
-  }
-  
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/Admin/SideBar"; 
+
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <main>
+        <SidebarTrigger />
+        {children}
+      </main>
+    </SidebarProvider>
+  );
+}
