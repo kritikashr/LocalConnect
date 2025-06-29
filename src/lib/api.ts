@@ -98,6 +98,14 @@ export async function insertUser(user: TSignupSchema): Promise<void> {
   });
 }
 
+// insert a service provider
+export async function insertProvider(user: TSignupSchema): Promise<void> {
+  await fetchAPI<void>("/api/Auth/register-serviceprovider", {
+    method: "POST",
+    body: JSON.stringify(user),
+  });
+}
+
 // user login
 export async function userLogin(user: TLoginSchema): Promise<LoginResponse> {
   const response = await fetchAPI<LoginResponse>("/api/Auth/login", {
