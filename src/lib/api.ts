@@ -1,7 +1,7 @@
 import { Notice } from "./type";
 import { TLoginSchema, TNoticeSchema, TSignupSchema } from "./validation";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+  import { getServerSession } from "next-auth";
+  import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 
@@ -103,6 +103,17 @@ export async function userLogin(
   user: TLoginSchema
 ): Promise<{ message: string }> {
   const response = await fetchAPI<{ message: string }>("/api/Auth/login", {
+    method: "POST",
+    body: JSON.stringify(user),
+    credentials: "include",
+  });
+  return response;
+}
+
+export async function adminLogin(
+  user: TLoginSchema
+): Promise<{ message: string }> {
+  const response = await fetchAPI<{ message: string }>("/api/admin/login", {
     method: "POST",
     body: JSON.stringify(user),
     credentials: "include",
