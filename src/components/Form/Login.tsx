@@ -19,9 +19,15 @@ const Login = () => {
   });
 
   const onSubmit = async (data: TLoginSchema) => {
-    await userLogin(data);
-    reset();
-    router.push("/");
+    try {
+      const user = await userLogin(data);
+      console.log("Login success:", user);
+      alert(`Welcome, ${user.name}`);
+      router.push("/");
+    } catch (err: any) {
+      alert(err.message || "Login failed");
+      console.error("Login error:", err);
+    }
   };
 
   return (

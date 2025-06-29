@@ -1,7 +1,7 @@
-import { Notice } from "./type";
+import { LoginResponse, Notice } from "./type";
 import { TLoginSchema, TNoticeSchema, TSignupSchema } from "./validation";
-  import { getServerSession } from "next-auth";
-  import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 
@@ -99,14 +99,17 @@ export async function insertUser(user: TSignupSchema): Promise<void> {
 }
 
 // user login
-export async function userLogin(
-  user: TLoginSchema
-): Promise<{ message: string }> {
-  const response = await fetchAPI<{ message: string }>("/api/Auth/login", {
+export async function userLogin(user: TLoginSchema): Promise<LoginResponse> {
+  const response = await fetchAPI<LoginResponse>("/api/Auth/login", {
     method: "POST",
     body: JSON.stringify(user),
     credentials: "include",
   });
+  localStorage.setItem("userToken", response.token);
+  localStorage.setItem("userName", response.name);
+  localStorage.setItem("userEmail", response.email);
+  localStorage.setItem("userRole", response.role);
+  localStorage.setItem("userId", response.id);
   return response;
 }
 
