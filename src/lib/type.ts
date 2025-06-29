@@ -11,3 +11,11 @@ export interface DeleteButtonProps {
   id: number;
   onDeleted: () => void;
 }
+
+export interface LoginResponse {
+  token: string;
+  role: string;
+  id: string;
+  name: string;
+  email: string;
+}
