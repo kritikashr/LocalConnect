@@ -110,6 +110,7 @@ export async function userLogin(user: TLoginSchema): Promise<LoginResponse> {
   localStorage.setItem("userEmail", response.email);
   localStorage.setItem("userRole", response.role);
   localStorage.setItem("userId", response.id);
+  window.dispatchEvent(new Event("auth-change"));
   return response;
 }
 

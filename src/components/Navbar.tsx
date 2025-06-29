@@ -30,7 +30,7 @@ export default function Navbar() {
         <Link href="/complaint">Complaint</Link>
         <Link href="/news">News</Link>
 
-        {isLoggedIn ? <Profile /> : <Link href="/login">News</Link>}
+        {isLoggedIn ? <Profile /> : <Link href="/login">Login</Link>}
       </div>
     </div>
   );
