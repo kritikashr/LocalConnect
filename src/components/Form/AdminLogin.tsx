@@ -4,10 +4,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, TLoginSchema } from "@/lib/validation";
 import { Button } from "../ui/button";
-import { userLogin } from "@/lib/api";
+import { adminLogin } from "@/lib/api";
 import { useRouter } from "next/navigation";
 
-const Login = () => {
+const AdminLogin = () => {
   const router = useRouter();
   const {
     register,
@@ -19,15 +19,9 @@ const Login = () => {
   });
 
   const onSubmit = async (data: TLoginSchema) => {
-    try {
-      const user = await userLogin(data);
-      console.log("Login success:", user);
-      alert(`Welcome, ${user.name}`);
-      router.push("/");
-    } catch (err: any) {
-      alert(err.message || "Login failed");
-      console.error("Login error:", err);
-    }
+    await adminLogin(data);
+    reset();
+    router.push("/");
   };
 
   return (
@@ -75,4 +69,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;
