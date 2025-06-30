@@ -163,3 +163,18 @@ export async function getServiceRequest(
     },
   });
 }
+
+//Update service request status
+export async function updateServiceRequestStatus(
+  id: number,
+  status: string,
+  token: string | undefined
+): Promise<void> {
+  return fetchAPI<void>(`/api/ServiceRequests/${id}/status`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(status),
+  });
+}

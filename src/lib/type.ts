@@ -25,4 +25,8 @@ export interface ServiceRequest {
   title: string;
   description: string;
   status: string;
+  createdAt: string | null;
+  completedAt: string | null;
+  citizen: string;
+  serviceCategory: string;
 }
