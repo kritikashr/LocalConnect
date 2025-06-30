@@ -1,7 +1,13 @@
-import { LoginResponse, Notice } from "./type";
-import { TLoginSchema, TNoticeSchema, TSignupSchema } from "./validation";
+import { LoginResponse, Notice, ServiceRequest } from "./type";
+import {
+  TLoginSchema,
+  TNoticeSchema,
+  TRequestSchema,
+  TSignupSchema,
+} from "./validation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { JWT } from "next-auth/jwt";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 
@@ -133,24 +139,27 @@ export async function adminLogin(
   return response;
 }
 
-// user logout
-export async function userLogout(): Promise<void> {
-  await fetchAPI<void>("/api/Auth/logout", {
+//Post a service request
+export async function postServiceRequest(
+  request: TRequestSchema,
+  token: string
+): Promise<void> {
+  return fetchAPI<void>("/api/ServiceRequests", {
     method: "POST",
-    credentials: "include",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(request),
   });
 }
 
-// Get user details
-export async function fetchUser() {
-  try {
-    const res = await fetch("http://localhost:5000/api/Auth/me", {
-      credentials: "include",
-    });
-    if (!res.ok) throw new Error("Not logged in");
-    const data = await res.json();
-    return data.name;
-  } catch {
-    return null;
-  }
+//Get service request
+export async function getServiceRequest(
+  token: string | undefined
+): Promise<ServiceRequest[]> {
+  return fetchAPI<ServiceRequest[]>("/api/admin/servicerequests", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }
