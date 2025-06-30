@@ -41,18 +41,19 @@ export const loginSchema = z.object({
 export type TLoginSchema = z.infer<typeof loginSchema>;
 
 export const requestSchema = z.object({
-  title : z.string().min(3,{ message: "Title is required"}),
-  description : z.string().min(3,{ message: "Description is required"}),
-  serviceCategory : z.string().min(1, { message: "Service category is required" }),
-})
+  title: z.string().min(1, "Title is required"),
+  description: z.string().min(1, "Description is required"),
+  serviceCategoryId: z.coerce.number().min(1, "Category is required"),
+  citizenId: z.coerce.number().min(1, "User not identified."),
+});
 
 export type TRequestSchema = z.infer<typeof requestSchema>;
 
 export const complaintSchema = z.object({
-  description : z.string().min(3,{ message: "Description is required"}),
-  priority : z.string().min(1, { message: "Priority is required" }),
-  category : z.string().min(1, { message: "Category is required" }),
-  status : z.string().min(1, { message: "Status is required" }),
-})
+  description: z.string().min(3, { message: "Description is required" }),
+  priority: z.string().min(1, { message: "Priority is required" }),
+  category: z.string().min(1, { message: "Category is required" }),
+  status: z.string().min(1, { message: "Status is required" }),
+});
 
 export type TComplaintSchema = z.infer<typeof complaintSchema>;
