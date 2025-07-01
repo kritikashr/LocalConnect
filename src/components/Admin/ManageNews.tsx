@@ -7,9 +7,6 @@ import { handleDeleteNews } from "./action";
 
 const ManageNews: React.FC = () => {
   const notices = use(getNotices());
-  const refreshPage = () => {
-    window.location.reload();
-  };
   return (
     <div className="p-4 w-full">
       <h2 className="text-xl font-semibold">Manage Service Requests</h2>
@@ -42,14 +39,12 @@ const ManageNews: React.FC = () => {
               <td className="border px-3 py-4">{notice.location}</td>
               <td className="border px-3 py-4">{notice.contact}</td>
               <td className="border px-3 h-full text-center">
-                <td className="border px-3 h-full text-center">
-                  <form action={handleDeleteNews}>
-                    <input type="hidden" name="userId" value={notice.id} />
-                    <button className="bg-red-600 text-white px-3 py-1 rounded ">
-                      Delete
-                    </button>
-                  </form>
-                </td>
+                <form action={handleDeleteNews}>
+                  <input type="hidden" name="userId" value={notice.id} />
+                  <button className="bg-red-600 text-white px-3 py-1 rounded ">
+                    Delete
+                  </button>
+                </form>
               </td>
             </tr>
           ))}
