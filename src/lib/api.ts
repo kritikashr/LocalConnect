@@ -222,3 +222,16 @@ export async function updateServiceProviderStatus(
     },
   });
 }
+
+//Delete service Provider
+export async function deleteServiceProvider(
+  id: number,
+  token: string | undefined
+): Promise<void> {
+  return fetchAPI<void>(`/api/admin/serviceproviders/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}

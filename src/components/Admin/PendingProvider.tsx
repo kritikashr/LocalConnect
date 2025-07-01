@@ -1,5 +1,5 @@
 import { getServiceProvider, getUserSession } from "@/lib/api";
-import { handleApprove } from "./handleApprove";
+import { handleApprove, handleDelete } from "./action";
 export default async function PendingProvider() {
   const session = await getUserSession();
   //   console.log(session);
@@ -26,11 +26,17 @@ export default async function PendingProvider() {
               <td className="border px-3 py-2 text-center">{req.id}</td>
               <td className="border px-3 py-2 text-center">{req.name}</td>
               <td className="border px-3 py-2 text-center">{req.email}</td>
-              <td className="border px-3 py-2 text-center">
+              <td className="border py-2 flex justify-center gap-5 w-full ">
                 <form action={handleApprove}>
                   <input type="hidden" name="providerId" value={req.id} />
                   <button className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">
                     Approve
+                  </button>
+                </form>
+                <form action={handleDelete}>
+                  <input type="hidden" name="providerId" value={req.id} />
+                  <button className="bg-red-600 text-white px-3 py-1 rounded ">
+                    Delete
                   </button>
                 </form>
               </td>
