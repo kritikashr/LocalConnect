@@ -1,16 +1,14 @@
-import { getServiceRequest } from "@/lib/api";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getServiceRequest, getUserSession } from "@/lib/api";
 import { format } from "date-fns";
 import UpdateStatusForm from "../Form/UpdateStatusForm";
 
 export default async function ManageRequestPage() {
-  const session = await getServerSession(authOptions);
-  const token = session?.accessToken;
+  const session = await getUserSession();
 
-  if (!token) return <p>Unauthorized</p>;
+  // If session is null or doesn't have an accessToken, unauthorized
+  if (!session || typeof session.accessToken !== "string") return <p>Unauthorized</p>;
 
-  const requests = await getServiceRequest(token);
+  const requests = await getServiceRequest(session.accessToken);
 
   return (
     <div className="p-4 w-full">

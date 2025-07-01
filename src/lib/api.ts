@@ -178,3 +178,12 @@ export async function updateServiceRequestStatus(
     body: JSON.stringify(status),
   });
 }
+
+//Get user session
+export async function getUserSession(): Promise<JWT | null> {
+  const session = await getServerSession(authOptions);
+  if (session?.user && "accessToken" in session.user) {
+    return session.user as JWT;
+  }
+  return null;
+}
