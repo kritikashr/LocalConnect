@@ -23,7 +23,7 @@ const ProviderForm = () => {
     await insertProvider(data);
     reset();
     alert("Registered successfully.");
-    router.push("/login");
+    router.push("/");
   };
 
   return (

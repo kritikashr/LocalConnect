@@ -31,7 +31,7 @@ const items = [
   },
   {
     title: "Service Provider",
-    url: "#",
+    url: "/admin/provider",
     icon: Handshake,
   },
   {

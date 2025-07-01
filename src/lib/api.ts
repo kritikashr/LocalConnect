@@ -139,6 +139,15 @@ export async function adminLogin(
   return response;
 }
 
+//Get user session
+export async function getUserSession(): Promise<JWT | null> {
+  const session = await getServerSession(authOptions);
+  if (session?.user && "accessToken" in session.user) {
+    return session.user as JWT;
+  }
+  return null;
+}
+
 //Post a service request
 export async function postServiceRequest(
   request: TRequestSchema,
@@ -170,7 +179,7 @@ export async function updateServiceRequestStatus(
   status: string,
   token: string | undefined
 ): Promise<void> {
-  return fetchAPI<void>(`/api/ServiceRequests/${id}/status`, {
+  return fetchAPI<void>(`/api/admin/servicerequests/${id}/status`, {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -179,11 +188,37 @@ export async function updateServiceRequestStatus(
   });
 }
 
-//Get user session
-export async function getUserSession(): Promise<JWT | null> {
-  const session = await getServerSession(authOptions);
-  if (session?.user && "accessToken" in session.user) {
-    return session.user as JWT;
-  }
-  return null;
+//Get pending service provider 
+export async function getServiceProvider(
+  token: string | undefined
+): Promise<any> {
+  return fetchAPI<any>("/api/admin/serviceproviders/pending", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+//Get approved service provider
+export async function getApprovedServiceProvider(
+  token: string | undefined
+): Promise<any> {
+  return fetchAPI<any>("/api/admin/serviceproviders/approved", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+//Update service provider status
+export async function updateServiceProviderStatus(
+  id: number,
+  token: string | undefined
+): Promise<void> {
+  return fetchAPI<void>(`/api/admin/serviceproviders/${id}/approve`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }

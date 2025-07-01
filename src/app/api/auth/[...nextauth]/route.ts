@@ -1,7 +1,7 @@
-import NextAuth, { NextAuthOptions, User as NextAuthUser } from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-
+// Extend NextAuth types
 declare module "next-auth" {
   interface User {
     accessToken?: string;
@@ -9,6 +9,16 @@ declare module "next-auth" {
     id?: string;
     name?: string;
     email?: string;
+  }
+
+  interface Session {
+    user: {
+      id?: string;
+      email?: string;
+      name?: string;
+      role?: string;
+      accessToken?: string;
+    };
   }
 }
 
@@ -53,6 +63,10 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
 
+  session: {
+    strategy: "jwt",
+  },
+
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
@@ -70,14 +84,10 @@ export const authOptions: NextAuthOptions = {
         session.user.role = token.role ?? "";
         session.user.name = token.name ?? "";
         session.user.id = token.id ?? "";
-        session.accessToken = token.accessToken ?? "";
+        session.user.accessToken = token.accessToken ?? ""; // ✅ fixed: accessToken now inside session.user
       }
       return session;
     },
-  },
-
-  session: {
-    strategy: "jwt",
   },
 
   secret: process.env.NEXTAUTH_SECRET,
