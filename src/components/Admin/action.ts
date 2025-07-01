@@ -40,3 +40,14 @@ export async function handleDeleteUsers(formData: FormData) {
   await deleteUser(Number(id), session.accessToken);
   revalidatePath("/admin/users");
 }
+
+export async function handleDeleteNews(formData: FormData) {
+  const session = await getUserSession();
+  const id = formData.get("newsId");
+
+  if (!session?.accessToken) throw new Error("Unauthorized");
+  if (!id) throw new Error("Missing news ID");
+
+  await deleteServiceProvider(Number(id), session.accessToken);
+  revalidatePath("/admin/news");
+}
