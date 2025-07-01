@@ -8,11 +8,11 @@ export default function UpdateStatusForm({
   currentStatus: string;
 }) {
   return (
-    <form action={`/admin/request/${requestId}/update-status`} method="POST">
+    <form action={`/admin/request/${requestId}/update-status`} method="POST" className="flex gap-2 w-full justify-center">
       <select
         name="status"
         defaultValue={currentStatus}
-        className="border rounded px-2 py-1 mr-2"
+        className="border rounded px-2 py-1"
       >
         <option value="pending">Pending</option>
         <option value="ongoing">Ongoing</option>

@@ -11,7 +11,7 @@ export async function POST(
   const token = session?.accessToken;
 
   if (!token) {
-    return NextResponse.redirect("/login");
+    return NextResponse.redirect(new URL("/api/auth/signin?callbackUrl=/admin", req.url));
   }
 
   const formData = await req.formData();
@@ -23,15 +23,11 @@ export async function POST(
 
   try {
     await updateServiceRequestStatus(Number(params.id), status, token);
-    return NextResponse.redirect("http://localhost:3000/admin/request");
+    return NextResponse.redirect(new URL("/admin/request", req.url));
   } catch (error) {
-    if (error instanceof Error) {
-      console.error("Failed to update:" + error.message, error.message);
-    } else {
-      console.error("Failed to update:", error);
-    }
+    console.error("Failed to update:", error);
     return new NextResponse(
-      "Failed to update status" + (error instanceof Error ? error.message : ""),
+      "Failed to update status: " + (error instanceof Error ? error.message : "Unknown error"),
       { status: 500 }
     );
   }
