@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -23,7 +22,7 @@ export default function RootLayout({
       <body className={`${inter.className}  antialiased`}>
         <AuthProvider>
           <Navbar />
-          {children}
+          <div>{children}</div>
         </AuthProvider>
       </body>
     </html>

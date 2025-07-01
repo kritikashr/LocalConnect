@@ -53,20 +53,20 @@ const items = [
 
 export function AppSidebar() {
   return (
-    <Sidebar>
+    <Sidebar className="pt-20">
       <SidebarContent>
         <div className="h-full flex">
           <SidebarGroup>
-            <SidebarGroupLabel>
-              <p className="text-base p-2 pt-4">Admin Panel</p>
+            <SidebarGroupLabel className="text-lg p-2  mt-5 mb-1">
+              Admin Panel
             </SidebarGroupLabel>
 
-            <div className="mt-10 flex flex-col justify-between h-full">
+            <div className="flex flex-col justify-between h-full">
               <SidebarGroupContent>
                 <SidebarMenu>
                   {items.map((item) => (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild>
+                    <SidebarMenuItem key={item.title} >
+                      <SidebarMenuButton asChild className="py-7">
                         <Link
                           href={item.url}
                           className="mt-2 flex items-center gap-2"
