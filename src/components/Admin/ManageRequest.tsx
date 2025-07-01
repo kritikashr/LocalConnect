@@ -30,18 +30,18 @@ export default async function ManageRequestPage() {
         <tbody>
           {requests.map((req) => (
             <tr key={req.id}>
-              <td className="border px-3 py-2">{req.id}</td>
-              <td className="border px-3 py-2">{req.title}</td>
-              <td className="border px-3 py-2">{req.description}</td>
-              <td className="border px-3 py-2">{req.status}</td>
-              <td className="border px-3 py-2">
+              <td className="border px-3 py-2 text-center">{req.id}</td>
+              <td className="border px-3 py-2 text-center">{req.title}</td>
+              <td className="border px-3 py-2 text-center">{req.description}</td>
+              <td className="border px-3 py-2 text-center">{req.status}</td>
+              <td className="border px-3 py-2 text-center">
                 {req.createdAt && format(new Date(req.createdAt), "dd/MM/yyyy")}
               </td>
-              <td className="border px-3 py-2">
+              <td className="border px-3 py-2 text-center">
                 {req.completedAt && format(new Date(req.completedAt), "dd/MM/yyyy")}
               </td>
-              <td className="border px-3 py-2">{req.citizen}</td>
-              <td className="border px-3 py-2">{req.serviceCategory}</td>
+              <td className="border px-3 py-2 text-center">{req.citizen}</td>
+              <td className="border px-3 py-2 text-center">{req.serviceCategory}</td>
               <td className="border px-3 py-2">
                 <UpdateStatusForm requestId={req.id} currentStatus={req.status} />
               </td>
