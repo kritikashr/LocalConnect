@@ -14,26 +14,26 @@ export default async function PendingProvider() {
       <table className="min-w-full border text-sm">
         <thead className="bg-gray-100">
           <tr>
-            <th className="border px-3 py-2">ID</th>
-            <th className="border px-3 py-2">Title</th>
-            <th className="border px-3 py-2">Description</th>
-            <th className="border px-3 py-2">Action</th>
+            <th className="border px-3 py-4">ID</th>
+            <th className="border px-3 py-4">Title</th>
+            <th className="border px-3 py-4">Description</th>
+            <th className="border px-3 py-4">Action</th>
           </tr>
         </thead>
         <tbody>
           {pending.map((req: any) => (
             <tr key={req.id}>
-              <td className="border px-3 py-2 text-center">{req.id}</td>
-              <td className="border px-3 py-2 text-center">{req.name}</td>
-              <td className="border px-3 py-2 text-center">{req.email}</td>
-              <td className="border py-2 flex justify-center gap-5 w-full ">
-                <form action={handleApprove}>
+              <td className="border px-3 py-4 text-center">{req.id}</td>
+              <td className="border px-3 py-4 text-center">{req.name}</td>
+              <td className="border px-3 py-4 text-center">{req.email}</td>
+              <td className="border py-3 flex justify-center gap-5 w-full h-full ">
+                <form action={handleApprove} >
                   <input type="hidden" name="providerId" value={req.id} />
                   <button className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">
                     Approve
                   </button>
                 </form>
-                <form action={handleDelete}>
+                <form action={handleDelete} >
                   <input type="hidden" name="providerId" value={req.id} />
                   <button className="bg-red-600 text-white px-3 py-1 rounded ">
                     Delete

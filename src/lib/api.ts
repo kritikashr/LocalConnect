@@ -188,7 +188,7 @@ export async function updateServiceRequestStatus(
   });
 }
 
-//Get pending service provider 
+//Get pending service provider
 export async function getServiceProvider(
   token: string | undefined
 ): Promise<any> {
@@ -229,6 +229,28 @@ export async function deleteServiceProvider(
   token: string | undefined
 ): Promise<void> {
   return fetchAPI<void>(`/api/admin/serviceproviders/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+//Get all user
+export async function getAllUsers(token: string | undefined): Promise<any[]> {
+  return fetchAPI<any[]>("/api/admin/users", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+//Delete user
+export async function deleteUser(
+  id: number,
+  token: string | undefined
+): Promise<void> {
+  return fetchAPI<void>(`/api/admin/users/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,

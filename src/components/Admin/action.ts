@@ -2,6 +2,7 @@
 
 import {
   deleteServiceProvider,
+  deleteUser,
   getUserSession,
   updateServiceProviderStatus,
 } from "@/lib/api";
@@ -27,4 +28,15 @@ export async function handleDelete(formData: FormData) {
 
   await deleteServiceProvider(Number(id), session.accessToken);
   revalidatePath("/admin/provider");
+}
+
+export async function handleDeleteUsers(formData: FormData) {
+  const session = await getUserSession();
+  const id = formData.get("userId");
+
+  if (!session?.accessToken) throw new Error("Unauthorized");
+  if (!id) throw new Error("Missing user ID");
+
+  await deleteUser(Number(id), session.accessToken);
+  revalidatePath("/admin/users");
 }
