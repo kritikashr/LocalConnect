@@ -13,10 +13,11 @@ const ManageNews: React.FC = () => {
   };
   return (
     <div className="p-4 w-full">
+      <h2 className="text-xl font-semibold">Manage Service Requests</h2>
       <Link href="/admin/news/add">
-        <Button className="my-5">Add News</Button>
+        <Button className="mt-4 mb-1 rounded-none">Add News</Button>
       </Link>
-      <table className="min-w-full border border-gray-300 text-sm w-full">
+      <table className="min-w-full border border-gray-300 text-sm w-full mt-5">
         <thead className="bg-gray-100">
           <tr>
             <th className="border px-3 py-2">ID</th>
@@ -40,7 +41,7 @@ const ManageNews: React.FC = () => {
               <td className="border px-3 py-1">{notice.location}</td>
               <td className="border px-3 py-1">{notice.contact}</td>
               <td className="border px-3 py-1 text-center">
-                <DeleteButtonWrapper id={notice.id}  />
+                <DeleteButtonWrapper id={notice.id} />
               </td>
             </tr>
           ))}
