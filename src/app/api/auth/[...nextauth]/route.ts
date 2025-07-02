@@ -9,6 +9,10 @@ declare module "next-auth" {
     name?: string;
     email?: string;
   }
+  interface Session {
+    user: User;
+    accessToken?: string;
+  }
 }
 
 export const authOptions: NextAuthOptions = {
@@ -66,10 +70,10 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (session.user) {
         session.user.email = token.email ?? "";
-        session.user.role = token.role ?? "";
+        session.user.role = typeof token.role === "string" ? token.role : "";
         session.user.name = token.name ?? "";
-        session.user.id = token.id ?? "";
-        session.accessToken = token.accessToken ?? "";
+        session.user.id = typeof token.id === "string" ? token.id : "";
+        session.accessToken = typeof token.accessToken === "string" ? token.accessToken : "";
       }
       return session;
     },
