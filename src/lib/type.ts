@@ -19,3 +19,14 @@ export interface LoginResponse {
   name: string;
   email: string;
 }
+
+export interface ServiceRequest {
+  id: number;
+  title: string;
+  description: string;
+  status: string;
+  createdAt: string | null;
+  completedAt: string | null;
+  citizen: string;
+  serviceCategory: string;
+}

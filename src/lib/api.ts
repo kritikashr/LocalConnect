@@ -1,7 +1,13 @@
-import { LoginResponse, Notice } from "./type";
-import { TLoginSchema, TNoticeSchema, TSignupSchema } from "./validation";
+import { LoginResponse, Notice, ServiceRequest } from "./type";
+import {
+  TLoginSchema,
+  TNoticeSchema,
+  TRequestSchema,
+  TSignupSchema,
+} from "./validation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { JWT } from "next-auth/jwt";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 
@@ -98,6 +104,14 @@ export async function insertUser(user: TSignupSchema): Promise<void> {
   });
 }
 
+// insert a service provider
+export async function insertProvider(user: TSignupSchema): Promise<void> {
+  await fetchAPI<void>("/api/Auth/register-serviceprovider", {
+    method: "POST",
+    body: JSON.stringify(user),
+  });
+}
+
 // user login
 export async function userLogin(user: TLoginSchema): Promise<LoginResponse> {
   const response = await fetchAPI<LoginResponse>("/api/Auth/login", {
@@ -125,24 +139,121 @@ export async function adminLogin(
   return response;
 }
 
-// user logout
-export async function userLogout(): Promise<void> {
-  await fetchAPI<void>("/api/Auth/logout", {
+//Get user session
+export async function getUserSession(): Promise<JWT | null> {
+  const session = await getServerSession(authOptions);
+  if (session?.user && "accessToken" in session.user) {
+    return session.user as JWT;
+  }
+  return null;
+}
+
+//Post a service request
+export async function postServiceRequest(
+  request: TRequestSchema,
+  token: string
+): Promise<void> {
+  return fetchAPI<void>("/api/ServiceRequests", {
     method: "POST",
-    credentials: "include",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(request),
   });
 }
 
-// Get user details
-export async function fetchUser() {
-  try {
-    const res = await fetch("http://localhost:5000/api/Auth/me", {
-      credentials: "include",
-    });
-    if (!res.ok) throw new Error("Not logged in");
-    const data = await res.json();
-    return data.name;
-  } catch {
-    return null;
-  }
+//Get service request
+export async function getServiceRequest(
+  token: string | undefined
+): Promise<ServiceRequest[]> {
+  return fetchAPI<ServiceRequest[]>("/api/admin/servicerequests", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+//Update service request status
+export async function updateServiceRequestStatus(
+  id: number,
+  status: string,
+  token: string | undefined
+): Promise<void> {
+  return fetchAPI<void>(`/api/admin/servicerequests/${id}/status`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(status),
+  });
+}
+
+//Get pending service provider
+export async function getServiceProvider(
+  token: string | undefined
+): Promise<any> {
+  return fetchAPI<any>("/api/admin/serviceproviders/pending", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+//Get approved service provider
+export async function getApprovedServiceProvider(
+  token: string | undefined
+): Promise<any> {
+  return fetchAPI<any>("/api/admin/serviceproviders/approved", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+//Update service provider status
+export async function updateServiceProviderStatus(
+  id: number,
+  token: string | undefined
+): Promise<void> {
+  return fetchAPI<void>(`/api/admin/serviceproviders/${id}/approve`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+//Delete service Provider
+export async function deleteServiceProvider(
+  id: number,
+  token: string | undefined
+): Promise<void> {
+  return fetchAPI<void>(`/api/admin/serviceproviders/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+//Get all user
+export async function getAllUsers(token: string | undefined): Promise<any[]> {
+  return fetchAPI<any[]>("/api/admin/users", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+//Delete user
+export async function deleteUser(
+  id: number,
+  token: string | undefined
+): Promise<void> {
+  return fetchAPI<void>(`/api/admin/users/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }
