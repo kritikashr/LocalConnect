@@ -5,6 +5,7 @@ import {
   deleteUser,
   getUserSession,
   updateServiceProviderStatus,
+  updateServiceRequestStatus,
 } from "@/lib/api";
 import { revalidatePath } from "next/cache";
 
@@ -50,4 +51,20 @@ export async function handleDeleteNews(formData: FormData) {
 
   await deleteServiceProvider(Number(id), session.accessToken);
   revalidatePath("/admin/news");
+}
+
+export async function handleRequestStatus(formData: FormData) {
+  const session = await getUserSession();
+  const id = formData.get("requestId");
+  const status = formData.get("currentStatus");
+
+  if (!session?.accessToken) throw new Error("Unauthorized");
+  if (!id || !status) throw new Error("Missing request ID or status");
+
+  await updateServiceRequestStatus(
+    Number(id),
+    status.toString(),
+    session.accessToken
+  );
+  revalidatePath("/admin/request");
 }

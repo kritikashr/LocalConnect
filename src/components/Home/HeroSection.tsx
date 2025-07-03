@@ -16,12 +16,12 @@ const HeroSection = () => {
           stronger local future.
         </p>
         <div className="flex gap-5">
-          <Link href="/fileComplaint">
+          <Link href="/file-complaint">
             <Button className="md:h-11 lg:h-12 lg:text-base lg:px-6">
               File Complaints
             </Button>
           </Link>
-          <Link href={"/request"}>
+          <Link href="/request">
             <Button className="md:h-11 lg:h-12 lg:text-base lg:px-6">
               Request Services
             </Button>

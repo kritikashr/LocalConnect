@@ -7,9 +7,12 @@ import {
   TriangleAlert,
   Users,
   LogOut,
+  ShieldUser,
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
+import { RiAdminLine } from "react-icons/ri";
+import { usePathname } from "next/navigation";
 
 import {
   Sidebar,
@@ -24,6 +27,11 @@ import {
 
 // Menu items.
 const items = [
+  {
+    title: "Admin Panel",
+    url: "/admin",
+    icon: ShieldUser,
+  },
   {
     title: "Complaints",
     url: "#",
@@ -52,31 +60,42 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname();
+
   return (
     <Sidebar className="pt-20">
       <SidebarContent>
         <div className="h-full flex">
           <SidebarGroup>
-            <SidebarGroupLabel className="text-lg p-2  mt-5 mb-1">
-              Admin Panel
-            </SidebarGroupLabel>
+            {/* <SidebarGroupLabel className="p-2 mt-5 mb-1 flex gap-2 items-center">
+              <RiAdminLine />
+              <p className="text-base font-medium text-gray-600">Admin Panel</p>
+            </SidebarGroupLabel> */}
 
             <div className="flex flex-col justify-between h-full">
               <SidebarGroupContent>
-                <SidebarMenu>
-                  {items.map((item) => (
-                    <SidebarMenuItem key={item.title} >
-                      <SidebarMenuButton asChild className="py-7">
-                        <Link
-                          href={item.url}
-                          className="mt-2 flex items-center gap-2"
-                        >
-                          <item.icon />
-                          <span className="text-base">{item.title}</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
+                <SidebarMenu className="pt-4">
+                  {items.map((item) => {
+                    const isActive = pathname === item.url;
+
+                    return (
+                      <SidebarMenuItem key={item.title}>
+                        <SidebarMenuButton asChild className="py-7">
+                          <Link
+                            href={item.url}
+                            className={`mt-2 flex items-center gap-2 px-3 py-2 rounded-md transition-colors ${
+                              isActive
+                                ? "bg-gray-200 text-gray-600 font-semibold"
+                                : "text-gray-600  hover:bg-gray-50"
+                            }`}
+                          >
+                            <item.icon />
+                            <span className="text-base">{item.title}</span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    );
+                  })}
                 </SidebarMenu>
               </SidebarGroupContent>
 

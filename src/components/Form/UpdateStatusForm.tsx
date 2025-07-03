@@ -1,4 +1,5 @@
 import React from "react";
+import { handleRequestStatus } from "../Admin/action";
 
 export default function UpdateStatusForm({
   requestId,
@@ -8,9 +9,10 @@ export default function UpdateStatusForm({
   currentStatus: string;
 }) {
   return (
-    <form action={`/admin/request/${requestId}/update-status`} method="POST" className="flex gap-2 w-full justify-center">
+    <form action={handleRequestStatus} className="flex gap-2 w-full justify-center">
+      <input type="hidden" name="requestId" value={requestId}/>
       <select
-        name="status"
+        name="currentStatus"
         defaultValue={currentStatus}
         className="border rounded px-2 py-1"
       >

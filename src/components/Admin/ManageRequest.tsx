@@ -16,7 +16,7 @@ export default async function ManageRequestPage() {
   return (
     <div className="p-4 w-full">
       <h2 className="text-xl font-semibold ">Manage Service Requests</h2>
-      <Link href="/add-request">
+      <Link href="/request">
         <Button className="mt-4 mb-1 rounded-none text-base bg-white text-black border hover:bg-gray-200">
           Add Service Request
         </Button>
