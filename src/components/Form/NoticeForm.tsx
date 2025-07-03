@@ -37,7 +37,7 @@ const NoticeForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col justify-center items-center gap-5 px-3 w-[30vw]"
+      className="flex flex-col justify-center items-center gap-5  w-[48vw] font-bold border h-fit p-5 rounded bg-gray-100"
     >
       {/* Title */}
       <div className="flex flex-col gap-2 w-full">
@@ -96,7 +96,7 @@ const NoticeForm = () => {
         )}
       </div>
 
-      <Button type="submit" disabled={isSubmitting}>
+      <Button type="submit" disabled={isSubmitting} className="mt-4 px-10 text-base">
         Submit Notice
       </Button>
     </form>
