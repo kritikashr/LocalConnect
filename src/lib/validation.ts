@@ -54,6 +54,7 @@ export const complaintSchema = z.object({
   priority: z.string().min(1, { message: "Priority is required" }),
   category: z.string().min(1, { message: "Category is required" }),
   status: z.string().min(1, { message: "Status is required" }),
+  citizenId: z.coerce.number().min(1, "User not identified."),
 });
 
 export type TComplaintSchema = z.infer<typeof complaintSchema>;

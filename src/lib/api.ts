@@ -1,5 +1,6 @@
 import { LoginResponse, Notice, ServiceRequest } from "./type";
 import {
+  TComplaintSchema,
   TLoginSchema,
   TNoticeSchema,
   TRequestSchema,
@@ -185,6 +186,45 @@ export async function updateServiceRequestStatus(
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(status),
+  });
+}
+
+//Post a complaint
+export async function postComplaint(
+  complaint: TComplaintSchema,
+  token: string | undefined
+): Promise<void> {
+  return fetchAPI<void>("/api/Complaint", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(complaint),
+  });
+}
+//Get all complaints
+export async function getAllComplaints(
+  token: string | undefined
+): Promise<any[]> {
+  return fetchAPI<any[]>("/api/admin/complaints", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+//update complaint status
+export async function updateComplaintStatus(
+  id: number,
+  status: string,
+  token: string | undefined 
+): Promise<void> {
+  return fetchAPI<void>(`/api/admin/complaints/${id}/status`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ status }),
   });
 }
 
