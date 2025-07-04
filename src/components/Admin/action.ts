@@ -4,6 +4,7 @@ import {
   deleteServiceProvider,
   deleteUser,
   getUserSession,
+  updateComplaintStatus,
   updateServiceProviderStatus,
   updateServiceRequestStatus,
 } from "@/lib/api";
@@ -67,4 +68,20 @@ export async function handleRequestStatus(formData: FormData) {
     session.accessToken
   );
   revalidatePath("/admin/request");
+}
+
+export async function handleComplaintStatus(formData: FormData) {
+  const session = await getUserSession();
+  const id = formData.get("complaintId");
+  const status = formData.get("currentStatus");
+
+  if (!session?.accessToken) throw new Error("Unauthorized");
+  if (!id || !status) throw new Error("Missing complaint ID or status");
+
+  await updateComplaintStatus(
+    Number(id),
+    status.toString(),
+    session.accessToken
+  );
+  revalidatePath("/admin/complaint");
 }

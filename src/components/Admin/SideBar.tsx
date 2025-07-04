@@ -34,7 +34,7 @@ const items = [
   },
   {
     title: "Complaints",
-    url: "#",
+    url: "/admin/complaint",
     icon: TriangleAlert,
   },
   {
