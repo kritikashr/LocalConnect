@@ -1,16 +1,16 @@
 import React from "react";
-import { handleRequestStatus } from "../Admin/action";
+import { handleComplaintStatus } from "../Admin/action";
 
-export default function UpdateStatusForm({
-  requestId,
+export default function UpdateComplaintStatus({
+  complaintId,
   currentStatus,
 }: {
-  requestId: number;
+  complaintId: number;
   currentStatus: string;
 }) {
   return (
-    <form action={handleRequestStatus} className="flex gap-2 w-full justify-center">
-      <input type="hidden" name="requestId" value={requestId}/>
+    <form action={handleComplaintStatus} className="flex gap-2 w-full justify-center">
+      <input type="hidden" name="complaintId" value={complaintId}/>
       <select
         name="currentStatus"
         defaultValue={currentStatus}

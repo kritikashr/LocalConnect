@@ -16,7 +16,7 @@ export default async function PendingProvider() {
           <tr>
             <th className="border px-3 py-4">ID</th>
             <th className="border px-3 py-4">Title</th>
-            <th className="border px-3 py-4">Description</th>
+            <th className="border px-3 py-4">Email</th>
             <th className="border px-3 py-4">Action</th>
           </tr>
         </thead>

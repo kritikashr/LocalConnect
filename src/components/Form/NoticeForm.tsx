@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 const NoticeForm = () => {
   const router = useRouter();
   const { data: session } = useSession();
+
   const {
     register,
     handleSubmit,
@@ -22,12 +23,9 @@ const NoticeForm = () => {
   });
 
   const onSubmit = async (data: TNoticeSchema) => {
-    // console.log("New Notice:", data);
-
     try {
-      const token = session?.accessToken;
+      const token = session?.user.accessToken;
       if (!token) throw new Error("User not authenticated");
-
       await createNotice(data, token);
       reset();
       router.push("/admin/news");
@@ -39,8 +37,9 @@ const NoticeForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col justify-center items-center gap-5 px-3 w-[30vw]"
+      className="flex flex-col justify-center items-center gap-5  w-[48vw] font-bold border h-fit p-5 rounded bg-gray-100"
     >
+      {/* Title */}
       <div className="flex flex-col gap-2 w-full">
         <label htmlFor="title">Title</label>
         <input
@@ -53,6 +52,7 @@ const NoticeForm = () => {
         {errors.title && <p className="text-red-500">{errors.title.message}</p>}
       </div>
 
+      {/* Description */}
       <div className="flex flex-col gap-2 w-full">
         <label htmlFor="description">Description</label>
         <textarea
@@ -66,6 +66,7 @@ const NoticeForm = () => {
         )}
       </div>
 
+      {/* Location */}
       <div className="flex flex-col gap-2 w-full">
         <label htmlFor="location">Location</label>
         <input
@@ -80,6 +81,7 @@ const NoticeForm = () => {
         )}
       </div>
 
+      {/* Contact */}
       <div className="flex flex-col gap-2 w-full">
         <label htmlFor="contact">Contact</label>
         <input
@@ -94,7 +96,7 @@ const NoticeForm = () => {
         )}
       </div>
 
-      <Button type="submit" disabled={isSubmitting}>
+      <Button type="submit" disabled={isSubmitting} className="mt-4 px-10 text-base">
         Submit Notice
       </Button>
     </form>

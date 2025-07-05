@@ -1,31 +1,30 @@
-import { getServiceRequest, getUserSession } from "@/lib/api";
+import { getAllComplaints,  getUserSession } from "@/lib/api";
 import { format } from "date-fns";
-import UpdateStatusForm from "../Form/UpdateStatusForm";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import UpdateComplaintStatus from "../Form/UpdateComplaintStauts";
 
-export default async function ManageRequestPage() {
+export default async function ManageComplaint() {
   const session = await getUserSession();
 
   // If session is null or doesn't have an accessToken, unauthorized
   if (!session || typeof session.accessToken !== "string")
     return <p>Unauthorized</p>;
 
-  const requests = await getServiceRequest(session.accessToken);
+  const complaints = await getAllComplaints(session.accessToken);
 
   return (
     <div className="p-4 w-full">
-      <h2 className="text-xl font-semibold ">Manage Service Requests</h2>
-      <Link href="/request">
+      <h2 className="text-xl font-semibold ">Manage Complaints</h2>
+      <Link href="/file-complaint">
         <Button className="mt-4 mb-1 rounded-none text-base bg-white text-black border hover:bg-gray-200">
-          Add Service Request
+          Add Complaint
         </Button>
       </Link>
       <table className="min-w-full border text-sm mt-5">
         <thead className="bg-gray-100">
           <tr>
             <th className="border px-3 py-4">ID</th>
-            <th className="border px-3 py-4">Title</th>
             <th className="border px-3 py-4">Description</th>
             <th className="border px-3 py-4">Status</th>
             <th className="border px-3 py-4">Created At</th>
@@ -36,10 +35,9 @@ export default async function ManageRequestPage() {
           </tr>
         </thead>
         <tbody>
-          {requests.map((req) => (
+          {complaints.map((req) => (
             <tr key={req.id}>
               <td className="border px-3 py-4 text-center">{req.id}</td>
-              <td className="border px-3 py-4 text-center">{req.title}</td>
               <td className="border px-3 py-4 text-center">
                 {req.description}
               </td>
@@ -49,15 +47,15 @@ export default async function ManageRequestPage() {
               </td>
               <td className="border px-3 py-4 text-center">
                 {req.completedAt &&
-                  format(new Date(req.completedAt), "dd/MM/yyyy")}
+                  format(new Date(req.updatedAt), "dd/MM/yyyy")}
               </td>
-              <td className="border px-3 py-4 text-center">{req.citizen}</td>
+              <td className="border px-3 py-4 text-center">{req.citizenId}</td>
               <td className="border px-3 py-4 text-center">
-                {req.serviceCategory}
+                {req.category}
               </td>
               <td className="border px-3 h-full">
-                <UpdateStatusForm
-                  requestId={req.id}
+                <UpdateComplaintStatus
+                  complaintId={req.id}
                   currentStatus={req.status}
                 />
               </td>
