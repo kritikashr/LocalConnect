@@ -217,14 +217,14 @@ export async function getAllComplaints(
 export async function updateComplaintStatus(
   id: number,
   status: string,
-  token: string | undefined 
+  token: string | undefined
 ): Promise<void> {
   return fetchAPI<void>(`/api/admin/complaints/${id}/status`, {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ status }),
+    body: JSON.stringify(status),
   });
 }
 
