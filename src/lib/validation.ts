@@ -51,8 +51,17 @@ export type TRequestSchema = z.infer<typeof requestSchema>;
 
 export const complaintSchema = z.object({
   description: z.string().min(3, { message: "Description is required" }),
-  priority: z.string().min(1, { message: "Priority is required" }),
-  category: z.string().min(1, { message: "Category is required" }),
+  priority: z.enum(["low", "medium", "high"], {
+    message: "Priority is required",
+  }),
+  category: z.enum([
+    "electricity",
+    "water",
+    "fire",
+    "sanitation"
+  ], {
+    message: "Category is required",
+  }),
   status: z.string().min(1, { message: "Status is required" }),
   citizenId: z.coerce.number().min(1, "User not identified."),
 });
