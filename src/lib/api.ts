@@ -297,3 +297,15 @@ export async function deleteUser(
     },
   });
 }
+
+//Get approved service provider
+export async function getApprovedServiceProviders(
+  category: string,
+  token: string | undefined
+): Promise<any[]> {
+  return fetchAPI<any[]>("/api/ServiceProviders/approved", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
