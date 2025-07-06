@@ -24,8 +24,8 @@ const Complaint = () => {
     formState: { errors, isSubmitting },
     reset,
   } = useForm<Omit<TComplaintSchema, "citizenId">>({
-      resolver: zodResolver(complaintSchema.omit({ citizenId: true })),
-    });
+    resolver: zodResolver(complaintSchema.omit({ citizenId: true })),
+  });
   const onSubmit = async (data: Omit<TComplaintSchema, "citizenId">) => {
     const token = localStorage.getItem("userToken");
     const citizenId = Number(localStorage.getItem("userId"));
@@ -59,7 +59,7 @@ const Complaint = () => {
       {loginAlert && <AlertLogin />}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col justify-center items-center gap-5 px-3 w-[30vw]"
+        className="flex flex-col justify-center items-center gap-7 px-3 font-semibold"
       >
         <div className="flex flex-col gap-2 w-full">
           <label htmlFor="description">Description</label>
@@ -76,13 +76,20 @@ const Complaint = () => {
 
         <div className="flex flex-col gap-2 w-full">
           <label htmlFor="category">Category</label>
-          <input
+          <select
             {...register("category")}
-            type="text"
             id="category"
-            placeholder="Enter complaint category"
+            defaultValue=""
             className="p-2 py-3 border rounded border-[#00000066]"
-          />
+          >
+            <option value="" disabled>
+              Select Category
+            </option>
+            <option value="electricity">Electricity</option>
+            <option value="water">Water</option>
+            <option value="sanitation">Sanitation</option>
+            <option value="fire">Fire</option>
+          </select>
           {errors.category && (
             <p className="text-red-500">{errors.category.message}</p>
           )}
@@ -90,33 +97,44 @@ const Complaint = () => {
 
         <div className="flex flex-col gap-2 w-full">
           <label htmlFor="priority">Priority</label>
-          <input
+          <select
             {...register("priority")}
-            type="text"
             id="priority"
-            placeholder="Enter priority"
+            defaultValue=""
             className="p-2 py-3 border rounded border-[#00000066]"
-          />
+          >
+            <option value="" disabled>
+              Select Priority
+            </option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+            <option value="critical">Critical</option>
+          </select>
           {errors.priority && (
             <p className="text-red-500">{errors.priority.message}</p>
           )}
         </div>
 
         <div className="flex flex-col gap-2 w-full">
-        <label htmlFor="status">Status</label>
-        <input
-          {...register("status")}
-          type="text"
-          id="status"
-          placeholder="Enter status"
-          className="p-2 py-3 border rounded border-[#00000066]"
-        />
-        {errors.status && (
-          <p className="text-red-500">{errors.status.message}</p>
-        )}
-      </div>
+          <label htmlFor="status">Status</label>
+          <input
+            {...register("status")}
+            type="text"
+            id="status"
+            placeholder="Enter status"
+            className="p-2 py-3 border rounded border-[#00000066]"
+          />
+          {errors.status && (
+            <p className="text-red-500">{errors.status.message}</p>
+          )}
+        </div>
 
-        <Button type="submit" disabled={isSubmitting}>
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          className="mt-4 px-10  py-4 text-base"
+        >
           Submit Complaint
         </Button>
       </form>
