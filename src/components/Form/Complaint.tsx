@@ -59,7 +59,7 @@ const Complaint = () => {
       {loginAlert && <AlertLogin />}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col justify-center items-center gap-7 px-3 font-semibold"
+        className="flex flex-col justify-center items-center gap-7 px-3 font-medium"
       >
         <div className="flex flex-col gap-2 w-full">
           <label htmlFor="description">Description</label>
@@ -67,7 +67,7 @@ const Complaint = () => {
             {...register("description")}
             id="description"
             placeholder="Brief description"
-            className="p-2 py-3 border rounded border-[#00000066]"
+            className="p-2 min-h-[50px] py-3 border rounded border-[#00000066]"
           />
           {errors.description && (
             <p className="text-red-500">{errors.description.message}</p>
@@ -80,7 +80,7 @@ const Complaint = () => {
             {...register("category")}
             id="category"
             defaultValue=""
-            className="p-2 py-3 border rounded border-[#00000066]"
+            className="p-2 py-3 border rounded border-[#00000066] text-base"
           >
             <option value="" disabled>
               Select Category
@@ -119,24 +119,26 @@ const Complaint = () => {
         <div className="flex flex-col gap-2 w-full">
           <label htmlFor="status">Status</label>
           <input
-            {...register("status")}
+            {...register("location")}
             type="text"
-            id="status"
-            placeholder="Enter status"
+            id="location"
+            placeholder="Enter location"
             className="p-2 py-3 border rounded border-[#00000066]"
           />
-          {errors.status && (
-            <p className="text-red-500">{errors.status.message}</p>
+          {errors.location && (
+            <p className="text-red-500">{errors.location.message}</p>
           )}
         </div>
 
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          className="mt-4 px-10  py-4 text-base"
-        >
-          Submit Complaint
-        </Button>
+        <div className="flex justify-center items-center">
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-fit mt-2 py-5 px-7 text-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300"
+          >
+            {isSubmitting ? "Submitting..." : "Submit Complaint"}
+          </Button>
+        </div>
       </form>
     </div>
   );

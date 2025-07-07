@@ -11,9 +11,9 @@ import ErrorAlert from "../alert/ErrorAlert";
 
 const Request = () => {
   const router = useRouter();
-  const [errorAlert, setErrorAlert] = useState(false); 
-  const [loginAlert, setLoginAlert] = useState(false); 
-  
+  const [errorAlert, setErrorAlert] = useState(false);
+  const [loginAlert, setLoginAlert] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -28,7 +28,7 @@ const Request = () => {
     const citizenId = Number(localStorage.getItem("userId"));
 
     if (!token || !citizenId) {
-      setLoginAlert(true); 
+      setLoginAlert(true);
       return;
     }
 
@@ -43,28 +43,22 @@ const Request = () => {
       reset();
       router.push("/");
     } catch (err) {
-      setErrorAlert(true); 
+      setErrorAlert(true);
       console.error(err);
     }
   };
 
   return (
     <div>
-    
-      
       {/* Error Alert */}
-      {errorAlert && (
-        <ErrorAlert/>
-      )}
+      {errorAlert && <ErrorAlert />}
 
       {/* Login Alert */}
-      {loginAlert && (
-        <AlertLogin/>
-      )}
+      {loginAlert && <AlertLogin />}
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col justify-center items-center gap-7 px-3 w-[38vw] font-bold"
+        className="flex flex-col justify-center items-center gap-7 px-3 w-[38vw] font-medium"
       >
         {/* Title Field */}
         <div className="flex flex-col gap-2 w-full">
@@ -76,7 +70,9 @@ const Request = () => {
             placeholder="Request title"
             className="p-2 py-3 border rounded border-[#00000066]"
           />
-          {errors.title && <p className="text-red-500">{errors.title.message}</p>}
+          {errors.title && (
+            <p className="text-red-500">{errors.title.message}</p>
+          )}
         </div>
 
         {/* Description Field */}
@@ -116,13 +112,15 @@ const Request = () => {
           )}
         </div>
 
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          className="mt-4 px-10  py-4 text-base"
-        >
-          Submit Request
-        </Button>
+        <div className="flex justify-center items-center">
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-fit mt-2 py-5 px-7 text-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300"
+          >
+            {isSubmitting ? "Submitting..." : "Submit Request"}
+          </Button>
+        </div>
       </form>
     </div>
   );
