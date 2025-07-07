@@ -232,7 +232,7 @@ export async function updateComplaintStatus(
 export async function getServiceProvider(
   token: string | undefined
 ): Promise<any> {
-  return fetchAPI<any>("/api/admin/serviceproviders/pending", {
+  return fetchAPI<any>("/api/ServiceProviders/pending", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -243,7 +243,7 @@ export async function getServiceProvider(
 export async function getApprovedServiceProvider(
   token: string | undefined
 ): Promise<any> {
-  return fetchAPI<any>("/api/admin/serviceproviders/approved", {
+  return fetchAPI<any>("/api/ServiceProviders/approved", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -255,7 +255,7 @@ export async function updateServiceProviderStatus(
   id: number,
   token: string | undefined
 ): Promise<void> {
-  return fetchAPI<void>(`/api/admin/serviceproviders/${id}/approve`, {
+  return fetchAPI<void>(`/api/ServiceProviders/${id}/approve`, {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -268,7 +268,7 @@ export async function deleteServiceProvider(
   id: number,
   token: string | undefined
 ): Promise<void> {
-  return fetchAPI<void>(`/api/admin/serviceproviders/${id}`, {
+  return fetchAPI<void>(`/api/ServiceProviders/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,

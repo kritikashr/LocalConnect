@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,9 +9,11 @@ import {
 } from "@/lib/validation";
 import { insertProvider } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import ErrorAlert from "../alert/ErrorAlert";
 
 const ProviderForm = () => {
   const router = useRouter();
+  const [errorAlert, setErrorAlert] = useState(false);
   const {
     register,
     handleSubmit,
@@ -22,15 +24,21 @@ const ProviderForm = () => {
   });
 
   const onSubmit = async (data: TServiceProviderSchema) => {
-    console.log(data);
-    await insertProvider(data);
-    reset();
-    alert("Registered successfully.");
-    router.push("/");
+    try {
+      console.log(data);
+      await insertProvider(data);
+      reset();
+      alert("Registered successfully.");
+      router.push("/");
+    } catch (error) {
+      setErrorAlert(true);
+      console.error(error);
+    }
   };
 
   return (
     <div className="min-h-[90vh] flex items-center justify-center bg-gradient-to-b from-gray-50 to-white py-10 px-4">
+      {errorAlert && <ErrorAlert />}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white shadow-2xl rounded-3xl px-10 py-12 w-full max-w-3xl border border-gray-100 transition-all duration-300"
