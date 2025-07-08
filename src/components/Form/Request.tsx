@@ -62,13 +62,18 @@ const Request = () => {
       >
         {/* Title Field */}
         <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="title">Title</label>
+          <label
+            htmlFor="title"
+            className="block text-sm font-semibold text-gray-700 mb-1"
+          >
+            Title
+          </label>
           <input
             {...register("title")}
             type="text"
             id="title"
             placeholder="Request title"
-            className="p-2 py-3 border rounded border-[#00000066]"
+            className="w-full px-4 py-4 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
           {errors.title && (
             <p className="text-red-500">{errors.title.message}</p>
@@ -77,12 +82,17 @@ const Request = () => {
 
         {/* Description Field */}
         <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="description">Description</label>
+          <label
+            htmlFor="description"
+            className="block text-sm font-semibold text-gray-700 mb-1"
+          >
+            Description
+          </label>
           <textarea
             {...register("description")}
             id="description"
             placeholder="Brief description"
-            className="p-2 py-3 border rounded border-[#00000066]"
+            className="w-full px-4 py-4 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
           {errors.description && (
             <p className="text-red-500">{errors.description.message}</p>
@@ -91,10 +101,15 @@ const Request = () => {
 
         {/* Service Category (Select) */}
         <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="categoryName">Category</label>
+          <label
+            htmlFor="categoryName"
+            className="block text-sm font-semibold text-gray-700 mb-1"
+          >
+            Category
+          </label>
           <select
             {...register("categoryName")}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-4 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="">Select category</option>
             <option value="Electrician">Electrician</option>
@@ -115,7 +130,7 @@ const Request = () => {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-fit mt-2 py-5 px-7 text-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300"
+            className="w-full mt-4 py-5 px-10 text-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300"
           >
             {isSubmitting ? "Submitting..." : "Submit Request"}
           </Button>

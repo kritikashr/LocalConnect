@@ -5,7 +5,7 @@ const page = () => {
   return (
     <div className="flex justify-center items-center  w-full h-[90vh] bg-gradient-to-b from-gray-50 to-white">
       <div className="border rounded-lg bg-white shadow-2xl flex  justify-center items-center p-4">
-        <div className="flex flex-col gap-10 items-center m-5">
+        <div className="flex flex-col gap-7 items-center m-5">
           <h2 className="text-3xl font-semibold text-center text-gray-800">
             Submit a <span className="text-blue-600">Service Request</span>
           </h2>

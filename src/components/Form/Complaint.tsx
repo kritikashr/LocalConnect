@@ -62,12 +62,17 @@ const Complaint = () => {
         className="flex flex-col justify-center items-center gap-7 px-3 font-medium"
       >
         <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="description">Description</label>
+          <label
+            htmlFor="description"
+            className="block text-sm font-semibold text-gray-700 mb-1"
+          >
+            Description
+          </label>
           <textarea
             {...register("description")}
             id="description"
             placeholder="Brief description"
-            className="p-2 min-h-[50px] py-3 border rounded border-[#00000066]"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
           {errors.description && (
             <p className="text-red-500">{errors.description.message}</p>
@@ -75,12 +80,17 @@ const Complaint = () => {
         </div>
 
         <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="category">Category</label>
+          <label
+            htmlFor="category"
+            className="block text-sm font-semibold text-gray-700 mb-1"
+          >
+            Category
+          </label>
           <select
             {...register("category")}
             id="category"
             defaultValue=""
-            className="p-2 py-3 border rounded border-[#00000066] text-base"
+            className="w-full px-3 py-4 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="" disabled>
               Select Category
@@ -96,12 +106,17 @@ const Complaint = () => {
         </div>
 
         <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="priority">Priority</label>
+          <label
+            htmlFor="priority"
+            className="block text-sm font-semibold text-gray-700 mb-1"
+          >
+            Priority
+          </label>
           <select
             {...register("priority")}
             id="priority"
             defaultValue=""
-            className="p-2 py-3 border rounded border-[#00000066]"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="" disabled>
               Select Priority
@@ -117,13 +132,18 @@ const Complaint = () => {
         </div>
 
         <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="status">Status</label>
+          <label
+            htmlFor="status"
+            className="block text-sm font-semibold text-gray-700 mb-1"
+          >
+            Status
+          </label>
           <input
             {...register("location")}
             type="text"
             id="location"
             placeholder="Enter location"
-            className="p-2 py-3 border rounded border-[#00000066]"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
           {errors.location && (
             <p className="text-red-500">{errors.location.message}</p>
@@ -134,7 +154,7 @@ const Complaint = () => {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-fit mt-2 py-5 px-7 text-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300"
+            className="w-fit mt-4 py-5 px-10 text-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300"
           >
             {isSubmitting ? "Submitting..." : "Submit Complaint"}
           </Button>
