@@ -1,4 +1,4 @@
-import { LoginResponse, Notice, ServiceRequest } from "./type";
+import { Complaint, LoginResponse, Notice, Provider, ServiceRequest } from "./type";
 import {
   TComplaintSchema,
   TLoginSchema,
@@ -205,8 +205,8 @@ export async function postComplaint(
 //Get all complaints
 export async function getAllComplaints(
   token: string | undefined
-): Promise<any[]> {
-  return fetchAPI<any[]>("/api/admin/complaints", {
+): Promise<Complaint[]> {
+  return fetchAPI<Complaint[]>("/api/admin/complaints", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -231,8 +231,8 @@ export async function updateComplaintStatus(
 //Get pending service provider
 export async function getServiceProvider(
   token: string | undefined
-): Promise<any> {
-  return fetchAPI<any>("/api/ServiceProviders/pending", {
+): Promise<Provider[]> {
+  return fetchAPI<Provider[]>("/api/ServiceProviders/pending", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -242,8 +242,8 @@ export async function getServiceProvider(
 //Get approved service provider
 export async function getApprovedServiceProvider(
   token: string | undefined
-): Promise<any> {
-  return fetchAPI<any>("/api/ServiceProviders/approved", {
+): Promise<Provider[]> {
+  return fetchAPI<Provider[]>("/api/ServiceProviders/approved", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -302,8 +302,8 @@ export async function deleteUser(
 export async function getApprovedServiceProviders(
   category: string,
   token: string | undefined
-): Promise<any[]> {
-  return fetchAPI<any[]>("/api/ServiceProviders/approved", {
+): Promise<Provider[]> {
+  return fetchAPI<Provider[]>("/api/ServiceProviders/approved", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
