@@ -1,4 +1,10 @@
-import { Complaint, LoginResponse, Notice, Provider, ServiceRequest } from "./type";
+import {
+  Complaint,
+  LoginResponse,
+  Notice,
+  Provider,
+  ServiceRequest,
+} from "./type";
 import {
   TComplaintSchema,
   TLoginSchema,
@@ -303,7 +309,11 @@ export async function getApprovedServiceProviders(
   category: string,
   token: string | undefined
 ): Promise<Provider[]> {
-  return fetchAPI<Provider[]>("/api/ServiceProviders/approved", {
+  const query =
+    category && category !== "All"
+      ? `?category=${encodeURIComponent(category)}`
+      : "";
+  return fetchAPI<Provider[]>("/api/ServiceProviders/approved" + query, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

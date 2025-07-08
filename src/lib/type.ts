@@ -53,4 +53,6 @@ export interface Provider{
   experienceYear: number;
   userId: number;
   rating: number;
+  phoneNumber: string;
+  photoUrl?: string;
 }
