@@ -43,7 +43,21 @@ export type TLoginSchema = z.infer<typeof loginSchema>;
 export const requestSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "Description is required"),
-  serviceCategoryId: z.coerce.number().min(1, "Category is required"),
+  categoryName: z.enum(
+      [
+        "Electrician",
+        "Plumber",
+        "Carpenter",
+        "House Cleaner",
+        "AC/Fridge Repair",
+        "Beautician",
+        "Taxi Driver",
+        "Pest Control",
+      ],
+      {
+        message: "Category is required",
+      }
+  ),
   citizenId: z.coerce.number().min(1, "User not identified."),
 });
 

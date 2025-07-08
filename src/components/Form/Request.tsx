@@ -91,24 +91,23 @@ const Request = () => {
 
         {/* Service Category (Select) */}
         <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="serviceCategoryId">Category</label>
+          <label htmlFor="categoryName">Category</label>
           <select
-            {...register("serviceCategoryId")}
-            id="serviceCategoryId"
-            defaultValue=""
-            className="p-2 py-3 border rounded border-[#00000066]"
+            {...register("categoryName")}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
-            <option value="" disabled>
-              Select Category
-            </option>
-            <option value="1">Electricity</option>
-            <option value="2">Water Supply</option>
-            <option value="3">Waste Management</option>
-            <option value="4">Road Repair</option>
-            <option value="5">Emergency Rescue</option>
+            <option value="">Select category</option>
+            <option value="Electrician">Electrician</option>
+            <option value="Plumber">Plumber</option>
+            <option value="Carpenter">Carpenter</option>
+            <option value="House Cleaner">House Cleaner</option>
+            <option value="AC/Fridge Repair">AC/Fridge Repair</option>
+            <option value="Beautician">Beautician</option>
+            <option value="Taxi Driver">Taxi Driver</option>
+            <option value="Pest Control">Pest Control</option>
           </select>
-          {errors.serviceCategoryId && (
-            <p className="text-red-500">{errors.serviceCategoryId.message}</p>
+          {errors.categoryName && (
+            <p className="text-red-500">{errors.categoryName.message}</p>
           )}
         </div>
 
