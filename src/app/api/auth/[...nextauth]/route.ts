@@ -1,7 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-// Extend NextAuth types
 declare module "next-auth" {
   interface User {
     accessToken?: string;
@@ -84,7 +83,7 @@ export const authOptions: NextAuthOptions = {
         session.user.role = token.role ?? "";
         session.user.name = token.name ?? "";
         session.user.id = token.id ?? "";
-        session.user.accessToken = token.accessToken ?? ""; // ✅ fixed: accessToken now inside session.user
+        session.user.accessToken = token.accessToken ?? ""; 
       }
       return session;
     },

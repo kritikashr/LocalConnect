@@ -1,4 +1,10 @@
-import { LoginResponse, Notice, ServiceRequest } from "./type";
+import {
+  Complaint,
+  LoginResponse,
+  Notice,
+  Provider,
+  ServiceRequest,
+} from "./type";
 import {
   TComplaintSchema,
   TLoginSchema,
@@ -205,8 +211,8 @@ export async function postComplaint(
 //Get all complaints
 export async function getAllComplaints(
   token: string | undefined
-): Promise<any[]> {
-  return fetchAPI<any[]>("/api/admin/complaints", {
+): Promise<Complaint[]> {
+  return fetchAPI<Complaint[]>("/api/admin/complaints", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -231,8 +237,8 @@ export async function updateComplaintStatus(
 //Get pending service provider
 export async function getServiceProvider(
   token: string | undefined
-): Promise<any> {
-  return fetchAPI<any>("/api/admin/serviceproviders/pending", {
+): Promise<Provider[]> {
+  return fetchAPI<Provider[]>("/api/ServiceProviders/pending", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -242,8 +248,8 @@ export async function getServiceProvider(
 //Get approved service provider
 export async function getApprovedServiceProvider(
   token: string | undefined
-): Promise<any> {
-  return fetchAPI<any>("/api/admin/serviceproviders/approved", {
+): Promise<Provider[]> {
+  return fetchAPI<Provider[]>("/api/ServiceProviders/approved", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -255,7 +261,7 @@ export async function updateServiceProviderStatus(
   id: number,
   token: string | undefined
 ): Promise<void> {
-  return fetchAPI<void>(`/api/admin/serviceproviders/${id}/approve`, {
+  return fetchAPI<void>(`/api/ServiceProviders/${id}/approve`, {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -268,7 +274,7 @@ export async function deleteServiceProvider(
   id: number,
   token: string | undefined
 ): Promise<void> {
-  return fetchAPI<void>(`/api/admin/serviceproviders/${id}`, {
+  return fetchAPI<void>(`/api/ServiceProviders/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -302,8 +308,12 @@ export async function deleteUser(
 export async function getApprovedServiceProviders(
   category: string,
   token: string | undefined
-): Promise<any[]> {
-  return fetchAPI<any[]>("/api/ServiceProviders/approved", {
+): Promise<Provider[]> {
+  const query =
+    category && category !== "All"
+      ? `?category=${encodeURIComponent(category)}`
+      : "";
+  return fetchAPI<Provider[]>("/api/ServiceProviders/approved" + query, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

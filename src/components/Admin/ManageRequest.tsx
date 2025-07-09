@@ -29,7 +29,7 @@ export default async function ManageRequestPage() {
             <th className="border px-3 py-4">Description</th>
             <th className="border px-3 py-4">Status</th>
             <th className="border px-3 py-4">Created At</th>
-            <th className="border px-3 py-4">Completed At</th>
+            {/* <th className="border px-3 py-4">Completed At</th> */}
             <th className="border px-3 py-4">User</th>
             <th className="border px-3 py-4">Category</th>
             <th className="border px-3 py-4">Actions</th>
@@ -47,13 +47,15 @@ export default async function ManageRequestPage() {
               <td className="border px-3 py-4 text-center">
                 {req.createdAt && format(new Date(req.createdAt), "dd/MM/yyyy")}
               </td>
-              <td className="border px-3 py-4 text-center">
+              {/* <td className="border px-3 py-4 text-center">
                 {req.completedAt &&
                   format(new Date(req.completedAt), "dd/MM/yyyy")}
-              </td>
-              <td className="border px-3 py-4 text-center">{req.citizen}</td>
+              </td> */}
               <td className="border px-3 py-4 text-center">
-                {req.serviceCategory}
+                {req.citizenName}
+              </td>
+              <td className="border px-3 py-4 text-center">
+                {req.categoryName}
               </td>
               <td className="border px-3 h-full">
                 <UpdateStatusForm

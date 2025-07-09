@@ -1,4 +1,4 @@
-import { getAllComplaints,  getUserSession } from "@/lib/api";
+import { getAllComplaints, getUserSession } from "@/lib/api";
 import { format } from "date-fns";
 import Link from "next/link";
 import { Button } from "../ui/button";
@@ -28,7 +28,7 @@ export default async function ManageComplaint() {
             <th className="border px-3 py-4">Description</th>
             <th className="border px-3 py-4">Status</th>
             <th className="border px-3 py-4">Created At</th>
-            <th className="border px-3 py-4">Completed At</th>
+            <th className="border px-3 py-4">Location</th>
             <th className="border px-3 py-4">User</th>
             <th className="border px-3 py-4">Category</th>
             <th className="border px-3 py-4">Actions</th>
@@ -45,14 +45,11 @@ export default async function ManageComplaint() {
               <td className="border px-3 py-4 text-center">
                 {req.createdAt && format(new Date(req.createdAt), "dd/MM/yyyy")}
               </td>
+              <td className="border px-3 py-4 text-center">{req.location}</td>
               <td className="border px-3 py-4 text-center">
-                {req.completedAt &&
-                  format(new Date(req.updatedAt), "dd/MM/yyyy")}
+                {req.citizenName}
               </td>
-              <td className="border px-3 py-4 text-center">{req.citizenId}</td>
-              <td className="border px-3 py-4 text-center">
-                {req.category}
-              </td>
+              <td className="border px-3 py-4 text-center">{req.category}</td>
               <td className="border px-3 h-full">
                 <UpdateComplaintStatus
                   complaintId={req.id}
