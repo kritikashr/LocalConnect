@@ -10,6 +10,7 @@ import {
 import { insertProvider } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import ErrorAlert from "../alert/ErrorAlert";
+import { toast } from "sonner";
 
 const ProviderForm = () => {
   const router = useRouter();
@@ -28,7 +29,7 @@ const ProviderForm = () => {
       console.log(data);
       await insertProvider(data);
       reset();
-      alert("Registered successfully.");
+      toast.success("You have been registered successfully!");
       router.push("/");
     } catch (error) {
       setErrorAlert(true);
