@@ -30,6 +30,7 @@ const Login = () => {
     } catch (err: any) {
       setErrorAlert(true);
       console.error("Login error:", err);
+      toast.error(err.message || "Login failed.");
     }
   };
 

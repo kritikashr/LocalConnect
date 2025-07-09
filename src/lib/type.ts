@@ -18,6 +18,8 @@ export interface LoginResponse {
   id: string;
   name: string;
   email: string;
+  ok: boolean;
+  text: any;
 }
 
 export interface ServiceRequest {

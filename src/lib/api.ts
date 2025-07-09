@@ -132,6 +132,10 @@ export async function userLogin(user: TLoginSchema): Promise<LoginResponse> {
   localStorage.setItem("userRole", response.role);
   localStorage.setItem("userId", response.id);
   window.dispatchEvent(new Event("auth-change"));
+  if (!response.ok) {
+    const errorMessage = await response.text();
+    throw new Error(errorMessage);
+  }
   return response;
 }
 

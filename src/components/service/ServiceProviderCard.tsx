@@ -20,7 +20,11 @@ const ServiceProviderCard = ({
     <div className="bg-gradient-to-b from-white to-gray-50 rounded-2xl border border-gray-200 shadow-md hover:shadow-xl transition-shadow duration-300 p-6 w-full max-w-sm text-center">
       {/* Image */}
       <img
-        src={provider.photoUrl || "https://github.com/shadcn.png"}
+        src={
+          provider.photoUrl
+            ? `http://localhost:5000${provider.photoUrl}`
+            : "https://github.com/shadcn.png"
+        }
         alt={provider.name}
         className="w-20 h-20 mx-auto rounded-full object-cover border-2 border-indigo-500 shadow"
       />
