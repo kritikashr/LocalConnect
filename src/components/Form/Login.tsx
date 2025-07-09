@@ -7,6 +7,7 @@ import { Button } from "../ui/button";
 import { userLogin } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import ErrorAlert from "../alert/ErrorAlert";
+import { toast } from "sonner";
 
 const Login = () => {
   const router = useRouter();
@@ -24,7 +25,7 @@ const Login = () => {
     try {
       const user = await userLogin(data);
       console.log("Login success:", user);
-      alert(`Welcome, ${user.name}`);
+      toast.success(`Welcome, ${user.name}`);
       router.push("/");
     } catch (err: any) {
       setErrorAlert(true);

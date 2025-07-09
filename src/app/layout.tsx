@@ -30,7 +30,7 @@ export default function RootLayout({
               position="bottom-right"
               toastOptions={{
                 classNames: {
-                  toast: "min-h-[80px] px-6 py-4 text-base",
+                  toast: "p-4 text-base",
                 },
               }}
             />

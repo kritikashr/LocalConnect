@@ -7,6 +7,7 @@ import { signupSchema, TSignupSchema } from "@/lib/validation";
 import { insertUser } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import ErrorAlert from "../alert/ErrorAlert";
+import { toast } from "sonner";
 
 const SignupForm = () => {
   const router = useRouter();
@@ -24,7 +25,7 @@ const SignupForm = () => {
       console.log(data);
       await insertUser(data);
       reset();
-      alert("Registered successfully.");
+      toast.success("You have been registered successfully!")
       router.push("/login");
     } catch (error) {
       setErrorAlert(true);

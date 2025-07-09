@@ -9,6 +9,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const Profile = () => {
   const router = useRouter();
@@ -27,6 +28,7 @@ const Profile = () => {
   const handleLogout = () => {
     localStorage.clear();
     window.dispatchEvent(new Event("auth-change"));
+    toast.success("You have been logged out successfully!")
     router.push("/login");
   };
   if (!isLoggedIn) return null;

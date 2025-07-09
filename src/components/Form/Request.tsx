@@ -8,6 +8,7 @@ import { postServiceRequest } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import AlertLogin from "../alert/alertLogin";
 import ErrorAlert from "../alert/ErrorAlert";
+import { toast } from "sonner";
 
 const Request = () => {
   const router = useRouter();
@@ -41,6 +42,7 @@ const Request = () => {
       console.log("Sending:", finalData, token);
       await postServiceRequest(finalData, token);
       reset();
+      toast.success("Your request have been registered successfully!")
       router.push("/");
     } catch (err) {
       setErrorAlert(true);

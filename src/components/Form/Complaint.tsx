@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { postComplaint } from "@/lib/api";
 import ErrorAlert from "../alert/ErrorAlert";
 import AlertLogin from "../alert/alertLogin";
+import { toast } from "sonner";
 
 const Complaint = () => {
   const router = useRouter();
@@ -44,6 +45,7 @@ const Complaint = () => {
       console.log("Sending:", finalData, token);
       await postComplaint(finalData, token);
       reset();
+      toast.success("Your complaint have been registered successfully!")
       router.push("/");
     } catch (err) {
       setErrorAlert(true);
@@ -133,10 +135,10 @@ const Complaint = () => {
 
         <div className="flex flex-col gap-2 w-full">
           <label
-            htmlFor="status"
+            htmlFor="Location"
             className="block text-sm font-semibold text-gray-700 mb-1"
           >
-            Status
+            Location
           </label>
           <input
             {...register("location")}

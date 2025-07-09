@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import { createNotice } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { toast } from "sonner";
 
 const NoticeForm = () => {
   const router = useRouter();
@@ -28,6 +29,7 @@ const NoticeForm = () => {
       if (!token) throw new Error("User not authenticated");
       await createNotice(data, token);
       reset();
+      toast.success("Your notice have been registered successfully!")
       router.push("/admin/news");
     } catch (err) {
       console.error(err);
