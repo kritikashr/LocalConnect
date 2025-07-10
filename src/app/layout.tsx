@@ -24,7 +24,7 @@ export default function RootLayout({
       <body className={`${inter.className}  antialiased`}>
         <AuthProvider>
           <Navbar />
-          <div>
+          <div className="min-h-screen bg-blue-50">
             <Toaster
               richColors
               position="bottom-right"

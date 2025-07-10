@@ -26,19 +26,19 @@ const ServiceProviderCard = ({
             : "https://github.com/shadcn.png"
         }
         alt={provider.name}
-        className="w-20 h-20 mx-auto rounded-full object-cover border-2 border-indigo-500 shadow"
+        className="w-20 h-20 mx-auto rounded-full object-cover border-2 border-blue-500 shadow"
       />
 
       {/* Name & Category */}
       <h2 className="text-xl font-semibold text-gray-800 mt-4">
         {provider.name}
       </h2>
-      <span className="inline-block mt-1 px-3 py-1 text-xs bg-indigo-100 text-indigo-700 rounded-sm font-medium">
+      <span className="inline-block mt-1 px-3 py-1 text-xs bg-indigo-100 text-blue-700 rounded-sm font-medium">
         {provider.category}
       </span>
 
       {/* Experience Highlighted */}
-      <p className="mt-4 text-sm font-bold text-indigo-600">
+      <p className="mt-4 text-sm font-bold text-blue-600">
         {provider.experienceYear} years of experience
       </p>
 
