@@ -23,7 +23,7 @@ export default async function ServiceProviderPage({ searchParams }: PageProps) {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white px-6 py-12">
+    <div className="min-h-screen px-6 py-12">
       <div className=" mx-8">
         <div className="flex items-center justify-between mb-2">
           <h1 className="text-4xl font-bold text-gray-800">
@@ -35,7 +35,7 @@ export default async function ServiceProviderPage({ searchParams }: PageProps) {
           Find trusted professionals near you.
         </p>
 
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 lg:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {providers.map((p, i) => (
             <ServiceProviderCard key={i} provider={p} />
           ))}
@@ -48,7 +48,7 @@ export default async function ServiceProviderPage({ searchParams }: PageProps) {
       </div>
       <Link
         href="/service-provider"
-        className="fixed bottom-6 right-6 bg-indigo-600 text-white px-5 py-3 rounded-lg shadow-lg hover:bg-indigo-700 transition-transform duration-200 hover:scale-105 text-sm font-medium z-50"
+        className="fixed bottom-6 right-6 bg-blue-600 text-white px-5 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition-transform duration-200 hover:scale-105 text-sm font-medium z-50"
       >
         Register as Provider
       </Link>
