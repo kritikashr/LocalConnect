@@ -20,7 +20,7 @@ export default async function AdminLayout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="w-full">
+      <main className="w-full bg-white">
         <SidebarTrigger />
         {children}
       </main>

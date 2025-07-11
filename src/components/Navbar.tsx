@@ -22,7 +22,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <div className="flex justify-between items-center w-full h-20 p-4 bg-white sticky top-0 z-50 px-14">
+    <div className="flex justify-between items-center w-full h-20 p-4 bg-white shadow-md sticky top-0 z-50 px-14">
       <div className="font-bold text-lg">Logo</div>
       <div className="flex gap-6 items-center">
         <Link href="/">Home</Link>
