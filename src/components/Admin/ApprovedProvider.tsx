@@ -28,7 +28,9 @@ export default async function ApprovedProvider() {
               <td className="border px-3 py-4 text-center">{req.id}</td>
               <td className="border px-3 py-4 text-center">{req.name}</td>
               <td className="border px-3 py-4 text-center">{req.email}</td>
-              <td className="border px-3 py-4 text-center">{req.phoneNumber}</td>
+              <td className="border px-3 py-4 text-center">
+                {req.phoneNumber}
+              </td>
               <td className="border px-3 py-4 text-center">{req.category}</td>
               <td className="border px-3 py-4 text-center">
                 {req.experienceYear}

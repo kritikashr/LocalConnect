@@ -15,6 +15,7 @@ import {
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { JWT } from "next-auth/jwt";
+import { handleLogout } from "@/components/Logout";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 
@@ -48,33 +49,68 @@ async function fetchWithTimeout(
 // It handles different HTTP methods and returns the parsed JSON response
 async function fetchAPI<T = any>(
   path: string,
-  options?: RequestInit,
-  timeout = 5000
+  options: RequestInit = {},
+  timeout = 5000,
+  retry = true // flag to avoid infinite retry loop
 ): Promise<T> {
   const res = await fetchWithTimeout(
     `${API_BASE}${path}`,
     {
-      method: options?.method || "GET",
+      method: options.method || "GET",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        ...(options?.headers || {}),
+        ...(options.headers || {}),
       },
-      body: options?.body,
+      body: options.body,
+      credentials: "include",
+      signal: options.signal,
     },
     timeout
   );
+
+  if (res.status === 401 && retry) {
+    // Try refreshing token
+    const refreshed = await refreshAccessToken();
+    if (refreshed) {
+      // Retry original request once
+      return fetchAPI<T>(path, options, timeout, false);
+    } else {
+      // Refresh failed — logout user
+      handleLogout();
+      throw new Error("Session expired");
+    }
+  }
 
   if (!res.ok) {
     const message = await res.text();
     throw new Error(`Error ${res.status}: ${message}`);
   }
 
-  if (options?.method === "DELETE" || res.status === 204) {
+  if (options.method === "DELETE" || res.status === 204) {
     return {} as T;
   }
 
   return res.json();
+}
+
+async function refreshAccessToken(): Promise<boolean> {
+  try {
+    const res = await fetch(`${API_BASE}/api/Auth/refresh-token`, {
+      method: "POST",
+      credentials: "include", // send cookie with refresh token
+    });
+    if (!res.ok) return false;
+
+    const data = await res.json();
+    if (data.accessToken) {
+      localStorage.setItem("userToken", data.accessToken);
+      return true;
+    }
+    return false;
+  } catch {
+    return false;
+  }
 }
 
 // Get all notices

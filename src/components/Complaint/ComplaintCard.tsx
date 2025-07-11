@@ -35,7 +35,7 @@ export default function SanitationCardList() {
   });
 
   return (
-    <div className="mx-10 my-5">
+    <div className="mx-10 py-5">
       {/* Filters */}
       <div className="flex gap-4 mb-6">
         <DropdownRadioFilter
