@@ -8,10 +8,11 @@ export default async function ManageComplaint() {
   const session = await getUserSession();
 
   // If session is null or doesn't have an accessToken, unauthorized
-  if (!session || typeof session.accessToken !== "string")
+  if (!session || !session.accessToken || session.accessToken === "undefined") {
     return <p>Unauthorized</p>;
+  }
 
-  const complaints = await getAllComplaints(session.accessToken);
+  const complaints = await getAllComplaints(session.accessToken as string);
 
   return (
     <div className="p-4 w-full">

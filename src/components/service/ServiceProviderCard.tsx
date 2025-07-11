@@ -47,7 +47,7 @@ const ServiceProviderCard = ({
       <div className="flex justify-center items-center mt-3 text-yellow-500">
         <Star className="w-4 h-4 fill-yellow-500 stroke-yellow-500" />
         <span className="ml-1 text-sm font-semibold">
-          {provider.rating.toFixed(1)}
+          {(provider.rating ?? 0).toFixed(1)}
         </span>
       </div>
 
