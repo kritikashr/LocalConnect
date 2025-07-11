@@ -42,7 +42,7 @@ export default function AlertLogin() {
         <AlertDialogHeader>
           <AlertDialogTitle>Login Required</AlertDialogTitle>
           <AlertDialogDescription>
-            You must be logged in to submit a service request.
+            You must be logged in to submit a request.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

@@ -1,9 +1,11 @@
 import ManageUser from '@/components/Admin/ManageUser'
 import React from 'react'
 
-const page = () => {
+import { PageProps } from '@/components/Admin/ManageUser'
+
+const page = ({ searchParams }: PageProps) => {
   return (
-    <div><ManageUser/></div>
+    <div><ManageUser searchParams={searchParams} /></div>
   )
 }
 
