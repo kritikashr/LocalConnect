@@ -6,6 +6,7 @@ import { loginSchema, TLoginSchema } from "@/lib/validation";
 import { Button } from "../ui/button";
 import { adminLogin } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const AdminLogin = () => {
   const router = useRouter();
@@ -21,6 +22,7 @@ const AdminLogin = () => {
   const onSubmit = async (data: TLoginSchema) => {
     await adminLogin(data);
     reset();
+    toast.success("Login successfully!");
     router.push("/");
   };
 

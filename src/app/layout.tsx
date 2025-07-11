@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import AuthProvider from "@/components/AuthProvider";
+import { Toaster } from "sonner";
+
 const inter = Inter({
   subsets: ["latin"],
 });
@@ -22,7 +24,18 @@ export default function RootLayout({
       <body className={`${inter.className}  antialiased`}>
         <AuthProvider>
           <Navbar />
-          <div>{children}</div>
+          <div>
+            <Toaster
+              richColors
+              position="bottom-right"
+              toastOptions={{
+                classNames: {
+                  toast: "p-4 text-base",
+                },
+              }}
+            />
+            {children}
+          </div>
         </AuthProvider>
       </body>
     </html>

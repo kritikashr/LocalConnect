@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { postComplaint } from "@/lib/api";
 import ErrorAlert from "../alert/ErrorAlert";
 import AlertLogin from "../alert/alertLogin";
+import { toast } from "sonner";
 
 const Complaint = () => {
   const router = useRouter();
@@ -24,8 +25,8 @@ const Complaint = () => {
     formState: { errors, isSubmitting },
     reset,
   } = useForm<Omit<TComplaintSchema, "citizenId">>({
-      resolver: zodResolver(complaintSchema.omit({ citizenId: true })),
-    });
+    resolver: zodResolver(complaintSchema.omit({ citizenId: true })),
+  });
   const onSubmit = async (data: Omit<TComplaintSchema, "citizenId">) => {
     const token = localStorage.getItem("userToken");
     const citizenId = Number(localStorage.getItem("userId"));
@@ -44,6 +45,7 @@ const Complaint = () => {
       console.log("Sending:", finalData, token);
       await postComplaint(finalData, token);
       reset();
+      toast.success("Your complaint have been registered successfully!")
       router.push("/");
     } catch (err) {
       setErrorAlert(true);
@@ -59,15 +61,20 @@ const Complaint = () => {
       {loginAlert && <AlertLogin />}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col justify-center items-center gap-5 px-3 w-[30vw]"
+        className="flex flex-col justify-center items-center gap-7 px-3 font-medium"
       >
         <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="description">Description</label>
+          <label
+            htmlFor="description"
+            className="block text-sm font-semibold text-gray-700 mb-1"
+          >
+            Description
+          </label>
           <textarea
             {...register("description")}
             id="description"
             placeholder="Brief description"
-            className="p-2 py-3 border rounded border-[#00000066]"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
           {errors.description && (
             <p className="text-red-500">{errors.description.message}</p>
@@ -75,50 +82,85 @@ const Complaint = () => {
         </div>
 
         <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="category">Category</label>
-          <input
+          <label
+            htmlFor="category"
+            className="block text-sm font-semibold text-gray-700 mb-1"
+          >
+            Category
+          </label>
+          <select
             {...register("category")}
-            type="text"
             id="category"
-            placeholder="Enter complaint category"
-            className="p-2 py-3 border rounded border-[#00000066]"
-          />
+            defaultValue=""
+            className="w-full px-3 py-4 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          >
+            <option value="" disabled>
+              Select Category
+            </option>
+            <option value="electricity">Electricity</option>
+            <option value="water">Water</option>
+            <option value="sanitation">Sanitation</option>
+            <option value="fire">Fire</option>
+          </select>
           {errors.category && (
             <p className="text-red-500">{errors.category.message}</p>
           )}
         </div>
 
         <div className="flex flex-col gap-2 w-full">
-          <label htmlFor="priority">Priority</label>
-          <input
+          <label
+            htmlFor="priority"
+            className="block text-sm font-semibold text-gray-700 mb-1"
+          >
+            Priority
+          </label>
+          <select
             {...register("priority")}
-            type="text"
             id="priority"
-            placeholder="Enter priority"
-            className="p-2 py-3 border rounded border-[#00000066]"
-          />
+            defaultValue=""
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          >
+            <option value="" disabled>
+              Select Priority
+            </option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+            <option value="critical">Critical</option>
+          </select>
           {errors.priority && (
             <p className="text-red-500">{errors.priority.message}</p>
           )}
         </div>
 
         <div className="flex flex-col gap-2 w-full">
-        <label htmlFor="status">Status</label>
-        <input
-          {...register("status")}
-          type="text"
-          id="status"
-          placeholder="Enter status"
-          className="p-2 py-3 border rounded border-[#00000066]"
-        />
-        {errors.status && (
-          <p className="text-red-500">{errors.status.message}</p>
-        )}
-      </div>
+          <label
+            htmlFor="Location"
+            className="block text-sm font-semibold text-gray-700 mb-1"
+          >
+            Location
+          </label>
+          <input
+            {...register("location")}
+            type="text"
+            id="location"
+            placeholder="Enter location"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+          {errors.location && (
+            <p className="text-red-500">{errors.location.message}</p>
+          )}
+        </div>
 
-        <Button type="submit" disabled={isSubmitting}>
-          Submit Complaint
-        </Button>
+        <div className="flex justify-center items-center">
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-fit mt-4 py-5 px-10 text-lg font-semibold bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300"
+          >
+            {isSubmitting ? "Submitting..." : "Submit Complaint"}
+          </Button>
+        </div>
       </form>
     </div>
   );

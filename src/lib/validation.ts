@@ -43,7 +43,21 @@ export type TLoginSchema = z.infer<typeof loginSchema>;
 export const requestSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "Description is required"),
-  serviceCategoryId: z.coerce.number().min(1, "Category is required"),
+  categoryName: z.enum(
+      [
+        "Electrician",
+        "Plumber",
+        "Carpenter",
+        "House Cleaner",
+        "AC/Fridge Repair",
+        "Beautician",
+        "Taxi Driver",
+        "Pest Control",
+      ],
+      {
+        message: "Category is required",
+      }
+  ),
   citizenId: z.coerce.number().min(1, "User not identified."),
 });
 
@@ -51,10 +65,50 @@ export type TRequestSchema = z.infer<typeof requestSchema>;
 
 export const complaintSchema = z.object({
   description: z.string().min(3, { message: "Description is required" }),
-  priority: z.string().min(1, { message: "Priority is required" }),
-  category: z.string().min(1, { message: "Category is required" }),
-  status: z.string().min(1, { message: "Status is required" }),
+  priority: z.enum(["low", "medium", "high","critical"], {
+    message: "Priority is required",
+  }),
+  category: z.enum(["electricity", "water", "fire", "sanitation"], {
+    message: "Category is required",
+  }),
   citizenId: z.coerce.number().min(1, "User not identified."),
+  location: z.string().min(3, { message: "Location is required" }),
 });
 
 export type TComplaintSchema = z.infer<typeof complaintSchema>;
+
+export const serviceProviderSchema = z
+  .object({
+    name: z.string().min(1, "Name is required"),
+    email: z.string().email("Invalid email"),
+    phoneNumber: z.string().min(7, "Phone number is required"),
+    password: z.string().min(6, "Password must be at least 6 characters"),
+    confirmPassword: z
+      .string()
+      .min(6, "Confirm Password must be at least 6 characters"),
+    category: z.enum(
+      [
+        "Electrician",
+        "Plumber",
+        "Carpenter",
+        "House Cleaner",
+        "AC/Fridge Repair",
+        "Beautician",
+        "Taxi Driver",
+        "Pest Control",
+      ],
+      {
+        message: "Service category is required",
+      }
+    ),
+    experienceYear: z
+      .number({ invalid_type_error: "Experience must be a number" })
+      .min(0, "Experience year must be positive"),
+    description: z.string().min(10, "Please describe yourself"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+export type TServiceProviderSchema = z.infer<typeof serviceProviderSchema>;
