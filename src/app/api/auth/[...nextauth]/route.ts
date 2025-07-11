@@ -1,10 +1,7 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-<<<<<<< HEAD
-=======
 // Extend NextAuth types
->>>>>>> dd87c1134defecde25f29adb58a9fed9558e2fc5
 declare module "next-auth" {
   interface User {
     accessToken?: string;
@@ -13,21 +10,9 @@ declare module "next-auth" {
     name?: string;
     email?: string;
   }
-<<<<<<< HEAD
   interface Session {
     user: User;
     accessToken?: string;
-=======
-
-  interface Session {
-    user: {
-      id?: string;
-      email?: string;
-      name?: string;
-      role?: string;
-      accessToken?: string;
-    };
->>>>>>> dd87c1134defecde25f29adb58a9fed9558e2fc5
   }
 }
 
@@ -92,13 +77,18 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email ?? "";
         session.user.role = typeof token.role === "string" ? token.role : "";
         session.user.name = token.name ?? "";
-<<<<<<< HEAD
-        session.user.id = typeof token.id === "string" ? token.id : "";
-        session.accessToken = typeof token.accessToken === "string" ? token.accessToken : "";
-=======
-        session.user.id = token.id ?? "";
-        session.user.accessToken = token.accessToken ?? ""; // ✅ fixed: accessToken now inside session.user
->>>>>>> dd87c1134defecde25f29adb58a9fed9558e2fc5
+        session.user.id =
+          typeof token.id === "string"
+            ? token.id
+            : token.id
+            ? String(token.id)
+            : "";
+        session.user.accessToken =
+          typeof token.accessToken === "string"
+            ? token.accessToken
+            : token.accessToken
+            ? String(token.accessToken)
+            : ""; // ✅ fixed: accessToken now inside session.user
       }
       return session;
     },
