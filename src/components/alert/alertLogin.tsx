@@ -11,7 +11,13 @@ import {
 import React, { useState } from "react";
 import { useRouter } from "next/navigation"; // Import useRouter for redirection
 
-export default function AlertLogin() {
+interface AlertLoginProps {
+  message?: string;
+}
+
+export default function AlertLogin({
+  message = "You must be logged in to submit a request.",
+}: AlertLoginProps) {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter(); // Initialize the router
 
@@ -41,13 +47,13 @@ export default function AlertLogin() {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Login Required</AlertDialogTitle>
-          <AlertDialogDescription>
-            You must be logged in to submit a service request.
-          </AlertDialogDescription>
+          <AlertDialogDescription>{message}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={closeDialog}>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleContinue}>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={handleContinue}>
+            Continue
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Profile from "./Profile";
+import User from "./user/User";
 import { useEffect, useState } from "react";
 
 export default function Navbar() {
@@ -30,7 +30,7 @@ export default function Navbar() {
         <Link href="/complaint">Complaint</Link>
         <Link href="/news">News</Link>
 
-        {isLoggedIn ? <Profile /> : <Link href="/login">Login</Link>}
+        {isLoggedIn ? <User /> : <Link href="/login">Login</Link>}
       </div>
     </div>
   );
