@@ -69,7 +69,7 @@ async function fetchAPI<T = any>(
     timeout
   );
 
-  if (res.status === 401 && retry) {
+  if (res.status == 401 && retry) {
     // Try refreshing token
     const refreshed = await refreshAccessToken();
     if (refreshed) {

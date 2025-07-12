@@ -7,11 +7,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import Link from "next/link";
 
-const Profile = () => {
+const User = () => {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState("");
@@ -28,7 +29,7 @@ const Profile = () => {
   const handleLogout = () => {
     localStorage.clear();
     window.dispatchEvent(new Event("auth-change"));
-    toast.success("You have been logged out successfully!")
+    toast.success("You have been logged out successfully!");
     router.push("/login");
   };
   if (!isLoggedIn) return null;
@@ -51,6 +52,9 @@ const Profile = () => {
           </AvatarFallback>
         </Avatar>
         <p className="text-sm text-gray-700">{userEmail}</p>
+        <Button>
+          <Link href="/user">Profile</Link>
+        </Button>
         <Button variant="destructive" onClick={handleLogout}>
           Logout
         </Button>
@@ -59,4 +63,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default User;
