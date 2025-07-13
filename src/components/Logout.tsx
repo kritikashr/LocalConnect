@@ -1,36 +1,23 @@
 "use client";
 
+import { userLogout } from "@/lib/api";
 import { useRouter } from "next/navigation";
-
-export async function handleLogout() {
-  const router = useRouter();
-  try {
-    // Call backend logout to delete cookie
-    const res = await fetch("http://localhost:5000/api/Auth/logout", {
-      method: "POST",
-      credentials: "include", // important to send cookies
-    });
-
-    if (res.ok) {
-      // Clear localStorage on successful logout
-      localStorage.removeItem("userToken");
-      localStorage.removeItem("userName");
-      localStorage.removeItem("userEmail");
-      localStorage.removeItem("userRole");
-      localStorage.removeItem("userId");
-
-      window.dispatchEvent(new Event("auth-change")); // Optional, to notify other parts of app
-
-      // Optionally, redirect to login page
-      router.push("/login");
-    } else {
-      console.error("Logout failed");
-    }
-  } catch (error) {
-    console.error("Logout error:", error);
-  }
-}
+import { toast } from "sonner";
 
 export default function LogoutButton() {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await userLogout();
+      localStorage.clear();
+      window.dispatchEvent(new Event("auth-change"));
+      toast.success("You have been logged out successfully!");
+      router.push("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
+
   return <button onClick={handleLogout}>Logout</button>;
 }

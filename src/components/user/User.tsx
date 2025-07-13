@@ -8,12 +8,13 @@ import {
 } from "@/components/ui/popover";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+// import { useRouter } from "next/navigation";
+// import { toast } from "sonner";
 import Link from "next/link";
+import LogoutButton from "../Logout";
 
 const User = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
@@ -26,12 +27,12 @@ const User = () => {
     setIsLoggedIn(!!email);
   }, []);
 
-  const handleLogout = () => {
-    localStorage.clear();
-    window.dispatchEvent(new Event("auth-change"));
-    toast.success("You have been logged out successfully!");
-    router.push("/login");
-  };
+  // const handleLogout = () => {
+  //   localStorage.clear();
+  //   window.dispatchEvent(new Event("auth-change"));
+  //   toast.success("You have been logged out successfully!");
+  //   router.push("/login");
+  // };
   if (!isLoggedIn) return null;
 
   return (
@@ -55,9 +56,7 @@ const User = () => {
         <Button>
           <Link href="/user">Profile</Link>
         </Button>
-        <Button variant="destructive" onClick={handleLogout}>
-          Logout
-        </Button>
+        <LogoutButton/>
       </PopoverContent>
     </Popover>
   );

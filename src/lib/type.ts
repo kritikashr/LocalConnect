@@ -13,7 +13,7 @@ export interface DeleteButtonProps {
 }
 
 export interface LoginResponse {
-  token: string;
+  accessToken: string;
   role: string;
   id: string;
   name: string;

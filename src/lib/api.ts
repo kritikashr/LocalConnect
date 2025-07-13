@@ -15,7 +15,6 @@ import {
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { JWT } from "next-auth/jwt";
-import { handleLogout } from "@/components/Logout";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 
@@ -69,7 +68,7 @@ async function fetchAPI<T = any>(
     timeout
   );
 
-  if (res.status == 401 && retry) {
+  if (res.status == 401 && retry && !path.includes("/login")) {
     // Try refreshing token
     const refreshed = await refreshAccessToken();
     if (refreshed) {
@@ -77,8 +76,8 @@ async function fetchAPI<T = any>(
       return fetchAPI<T>(path, options, timeout, false);
     } else {
       // Refresh failed — logout user
-      handleLogout();
-      throw new Error("Session expired");
+      await userLogout();
+      throw new Error("Session expired, user logged out");
     }
   }
 
@@ -105,13 +104,71 @@ async function refreshAccessToken(): Promise<boolean> {
     const data = await res.json();
     if (data.accessToken) {
       localStorage.setItem("userToken", data.accessToken);
-      console.log( "Access token refreshed successfully");
+      console.log("Access token refreshed successfully");
       return true;
     }
     return false;
   } catch {
     return false;
   }
+}
+
+// insert a user
+export async function insertUser(user: TSignupSchema): Promise<void> {
+  await fetchAPI<void>("/api/Auth/register-citizen", {
+    method: "POST",
+    body: JSON.stringify(user),
+  });
+}
+
+// insert a service provider
+export async function insertProvider(user: TSignupSchema): Promise<void> {
+  await fetchAPI<void>("/api/Auth/register-serviceprovider", {
+    method: "POST",
+    body: JSON.stringify(user),
+  });
+}
+
+// user login
+export async function userLogin(user: TLoginSchema): Promise<LoginResponse> {
+  const response = await fetchAPI<LoginResponse>(
+    "/api/Auth/login",
+    {
+      method: "POST",
+      body: JSON.stringify(user),
+      credentials: "include",
+    },
+    5000, // 5 seconds timeout
+    false // no retry for login
+  );
+  return response;
+}
+
+export async function adminLogin(
+  user: TLoginSchema
+): Promise<{ message: string }> {
+  const response = await fetchAPI<{ message: string }>("/api/admin/login", {
+    method: "POST",
+    body: JSON.stringify(user),
+    credentials: "include",
+  });
+  return response;
+}
+//logout user
+export async function userLogout(): Promise<void> {
+  await fetchAPI<void>("/api/Auth/logout", {
+    method: "POST",
+    credentials: "include",
+  });
+}
+
+//Get user session
+export async function getUserSession(): Promise<JWT | null> {
+  const session = await getServerSession(authOptions);
+  if (session?.user && "accessToken" in session.user) {
+    return session.user as JWT;
+  }
+  return null;
 }
 
 // Get all notices
@@ -138,58 +195,6 @@ export async function deleteNotice(id: number): Promise<void> {
   await fetchAPI<void>(`/api/News/${id}`, {
     method: "DELETE",
   });
-}
-
-// insert a user
-export async function insertUser(user: TSignupSchema): Promise<void> {
-  await fetchAPI<void>("/api/Auth/register-citizen", {
-    method: "POST",
-    body: JSON.stringify(user),
-  });
-}
-
-// insert a service provider
-export async function insertProvider(user: TSignupSchema): Promise<void> {
-  await fetchAPI<void>("/api/Auth/register-serviceprovider", {
-    method: "POST",
-    body: JSON.stringify(user),
-  });
-}
-
-// user login
-export async function userLogin(user: TLoginSchema): Promise<LoginResponse> {
-  const response = await fetchAPI<LoginResponse>("/api/Auth/login", {
-    method: "POST",
-    body: JSON.stringify(user),
-    credentials: "include",
-  });
-  localStorage.setItem("userToken", response.token);
-  localStorage.setItem("userName", response.name);
-  localStorage.setItem("userEmail", response.email);
-  localStorage.setItem("userRole", response.role);
-  localStorage.setItem("userId", response.id);
-  window.dispatchEvent(new Event("auth-change"));
-  return response;
-}
-
-export async function adminLogin(
-  user: TLoginSchema
-): Promise<{ message: string }> {
-  const response = await fetchAPI<{ message: string }>("/api/admin/login", {
-    method: "POST",
-    body: JSON.stringify(user),
-    credentials: "include",
-  });
-  return response;
-}
-
-//Get user session
-export async function getUserSession(): Promise<JWT | null> {
-  const session = await getServerSession(authOptions);
-  if (session?.user && "accessToken" in session.user) {
-    return session.user as JWT;
-  }
-  return null;
 }
 
 //Post a service request
@@ -325,9 +330,7 @@ export async function getAllUsers(
   token: string | undefined
 ): Promise<LoginResponse[]> {
   const query =
-    role && role !== "All"
-      ? `?role=${encodeURIComponent(role)}`
-      : "";
+    role && role !== "All" ? `?role=${encodeURIComponent(role)}` : "";
   return fetchAPI<LoginResponse[]>("/api/admin/users" + query, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -358,6 +361,29 @@ export async function getApprovedServiceProviders(
       ? `?category=${encodeURIComponent(category)}`
       : "";
   return fetchAPI<Provider[]>("/api/ServiceProviders/approved" + query, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+// get user complaints
+export async function getUserComplaints(
+  userId: number,
+  token: string | undefined
+): Promise<Complaint[]> {
+  return fetchAPI<Complaint[]>(`/api/Complaint/citizen/${userId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+// get user service requests
+export async function getUserServiceRequests(
+  userId: number,
+  token: string | undefined
+): Promise<ServiceRequest[]> {
+  return fetchAPI<ServiceRequest[]>(`/api/ServiceRequests/citizen/${userId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
