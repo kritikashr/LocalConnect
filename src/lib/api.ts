@@ -76,8 +76,7 @@ async function fetchAPI<T = any>(
       return fetchAPI<T>(path, options, timeout, false);
     } else {
       // Refresh failed — logout user
-      localStorage.clear();
-      window.dispatchEvent(new Event("auth-change"));
+      await userLogout();
       throw new Error("Session expired, user logged out");
     }
   }
@@ -112,32 +111,6 @@ async function refreshAccessToken(): Promise<boolean> {
   } catch {
     return false;
   }
-}
-
-// Get all notices
-export async function getNotices(): Promise<Notice[]> {
-  return fetchAPI<Notice[]>("/api/News");
-}
-
-// Create a notice
-export async function createNotice(
-  notice: TNoticeSchema,
-  token: string
-): Promise<Notice> {
-  return fetchAPI<Notice>("/api/News", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(notice),
-  });
-}
-
-// Delete a notice
-export async function deleteNotice(id: number): Promise<void> {
-  await fetchAPI<void>(`/api/News/${id}`, {
-    method: "DELETE",
-  });
 }
 
 // insert a user
@@ -181,6 +154,13 @@ export async function adminLogin(
   });
   return response;
 }
+//logout user
+export async function userLogout(): Promise<void> {
+  await fetchAPI<void>("/api/Auth/logout", {
+    method: "POST",
+    credentials: "include",
+  });
+}
 
 //Get user session
 export async function getUserSession(): Promise<JWT | null> {
@@ -189,6 +169,32 @@ export async function getUserSession(): Promise<JWT | null> {
     return session.user as JWT;
   }
   return null;
+}
+
+// Get all notices
+export async function getNotices(): Promise<Notice[]> {
+  return fetchAPI<Notice[]>("/api/News");
+}
+
+// Create a notice
+export async function createNotice(
+  notice: TNoticeSchema,
+  token: string
+): Promise<Notice> {
+  return fetchAPI<Notice>("/api/News", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(notice),
+  });
+}
+
+// Delete a notice
+export async function deleteNotice(id: number): Promise<void> {
+  await fetchAPI<void>(`/api/News/${id}`, {
+    method: "DELETE",
+  });
 }
 
 //Post a service request

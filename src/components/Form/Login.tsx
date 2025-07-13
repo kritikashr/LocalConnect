@@ -25,7 +25,7 @@ const Login = () => {
     try {
       const user = await userLogin(data);
       // Save to localStorage
-      localStorage.setItem("userToken", user.token);
+      localStorage.setItem("userToken", user.accessToken);
       localStorage.setItem("userName", user.name);
       localStorage.setItem("userEmail", user.email);
       localStorage.setItem("userRole", user.role);
@@ -33,7 +33,7 @@ const Login = () => {
 
       // Notify other tabs
       window.dispatchEvent(new Event("auth-change"));
-      
+
       toast.success(`Welcome, ${user.name}`);
       router.push("/");
     } catch (err: any) {

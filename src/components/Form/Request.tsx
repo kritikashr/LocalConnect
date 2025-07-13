@@ -39,7 +39,7 @@ const Request = () => {
     };
 
     try {
-      console.log("Sending:", finalData, token);
+      // console.log("Sending:", finalData, token);
       await postServiceRequest(finalData, token);
       reset();
       toast.success("Your request have been registered successfully!")

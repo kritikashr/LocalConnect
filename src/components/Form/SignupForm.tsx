@@ -22,7 +22,7 @@ const SignupForm = () => {
   });
   const onSubmit = async (data: TSignupSchema) => {
     try {
-      console.log(data);
+      // console.log(data);
       await insertUser(data);
       reset();
       toast.success("You have been registered successfully!")

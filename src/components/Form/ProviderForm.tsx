@@ -26,7 +26,7 @@ const ProviderForm = () => {
 
   const onSubmit = async (data: TServiceProviderSchema) => {
     try {
-      console.log(data);
+      // console.log(data);
       await insertProvider(data);
       reset();
       toast.success("You have been registered successfully!");
