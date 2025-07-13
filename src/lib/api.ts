@@ -69,7 +69,7 @@ async function fetchAPI<T = any>(
     timeout
   );
 
-  if (res.status === 401 && retry) {
+  if (res.status == 401 && retry) {
     // Try refreshing token
     const refreshed = await refreshAccessToken();
     if (refreshed) {
@@ -105,6 +105,7 @@ async function refreshAccessToken(): Promise<boolean> {
     const data = await res.json();
     if (data.accessToken) {
       localStorage.setItem("userToken", data.accessToken);
+      console.log( "Access token refreshed successfully");
       return true;
     }
     return false;
@@ -319,8 +320,15 @@ export async function deleteServiceProvider(
 }
 
 //Get all user
-export async function getAllUsers(token: string | undefined): Promise<any[]> {
-  return fetchAPI<any[]>("/api/admin/users", {
+export async function getAllUsers(
+  role: string,
+  token: string | undefined
+): Promise<LoginResponse[]> {
+  const query =
+    role && role !== "All"
+      ? `?role=${encodeURIComponent(role)}`
+      : "";
+  return fetchAPI<LoginResponse[]>("/api/admin/users" + query, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

@@ -2,20 +2,26 @@ import { getAllUsers, getUserSession } from "@/lib/api";
 import { handleDeleteUsers } from "./action";
 import { RoleDropdown } from "../ui/RoleDropdown";
 
-export default async function ManageUser() {
+export interface PageProps {
+  searchParams: {
+    role?: string;
+  };
+}
+
+export default async function ManageUser({ searchParams }: PageProps) {
+  const role = searchParams.role || "All";
   const session = await getUserSession();
 
   // If session is null or doesn't have an accessToken, unauthorized
   if (!session || typeof session.accessToken !== "string")
     return <p>Unauthorized</p>;
 
-  const users = await getAllUsers(session.accessToken);
-
+  const users = await getAllUsers(role, session.accessToken);
 
   return (
     <div className="p-4 w-full">
       <h2 className="text-xl font-semibold mb-4">Manage Users</h2>
-      <RoleDropdown/>
+      <RoleDropdown />
       <table className="min-w-full border text-sm">
         <thead className="bg-gray-100">
           <tr>
