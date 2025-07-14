@@ -24,7 +24,16 @@ const Login = () => {
   const onSubmit = async (data: TLoginSchema) => {
     try {
       const user = await userLogin(data);
-      console.log("Login success:", user);
+      // Save to localStorage
+      localStorage.setItem("userToken", user.accessToken);
+      localStorage.setItem("userName", user.name);
+      localStorage.setItem("userEmail", user.email);
+      localStorage.setItem("userRole", user.role);
+      localStorage.setItem("userId", user.id.toString());
+
+      // Notify other tabs
+      window.dispatchEvent(new Event("auth-change"));
+
       toast.success(`Welcome, ${user.name}`);
       router.push("/");
     } catch (err: any) {
