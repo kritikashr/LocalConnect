@@ -81,7 +81,7 @@ const Complaint = () => {
           )}
         </div>
 
-        <div className="flex flex-col gap-2 w-full">
+        {/* <div className="flex flex-col gap-2 w-full">
           <label
             htmlFor="category"
             className="block text-sm font-semibold text-gray-700 mb-1"
@@ -131,7 +131,7 @@ const Complaint = () => {
           {errors.priority && (
             <p className="text-red-500">{errors.priority.message}</p>
           )}
-        </div>
+        </div> */}
 
         <div className="flex flex-col gap-2 w-full">
           <label
