@@ -105,7 +105,7 @@ const Complaint = () => {
           {errors.category && (
             <p className="text-red-500">{errors.category.message}</p>
           )}
-        </div>
+        </div> */}
 
         <div className="flex flex-col gap-2 w-full">
           <label
@@ -131,7 +131,7 @@ const Complaint = () => {
           {errors.priority && (
             <p className="text-red-500">{errors.priority.message}</p>
           )}
-        </div> */}
+        </div>
 
         <div className="flex flex-col gap-2 w-full">
           <label
