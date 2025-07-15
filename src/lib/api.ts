@@ -260,9 +260,14 @@ export async function getAllComplaints(
     },
   });
 }
+
 //Get all complaints by user
-export async function getComplaints(): Promise<Complaint[]> {
-  return fetchAPI<Complaint[]>("/api/Complaint", {});
+export async function getComplaints(category: string): Promise<Complaint[]> {
+  const query =
+    category && category !== "All"
+      ? `?category=${encodeURIComponent(category)}`
+      : "";
+  return fetchAPI<Complaint[]>("/api/Complaint" + query);
 }
 //update complaint status
 export async function updateComplaintStatus(
