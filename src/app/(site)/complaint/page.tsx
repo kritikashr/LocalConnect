@@ -49,7 +49,7 @@ export default async function ServiceProviderPage({ searchParams }: PageProps) {
     "direct_report",
   ];
 
-  const complaints = await getComplaints();
+  const complaints = await getComplaints(category);
 
   return (
     <div className="min-h-screen px-6 py-12">
