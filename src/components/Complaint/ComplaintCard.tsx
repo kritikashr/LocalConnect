@@ -1,81 +1,58 @@
-"use client";
-
-import * as React from "react";
-import { complaints } from "@/lib/complaint";
+import React from "react";
 import { GrLocationPin } from "react-icons/gr";
-import { DropdownRadioFilter } from "../ui/DropdownRadioFilter"; 
+import { format } from "date-fns";
 
-const categoryOptions = [
-  { label: "All Categories", value: "" },
-  { label: "Water", value: "water" },
-  { label: "Electricity", value: "electricity" },
-  { label: "Sanitation", value: "sanitation" },
-  { label: "Fire", value: "fire" },
-  // add more if needed
-];
+interface Complaint {
+  id: number;
+  description: string;
+  category: string;
+  location: string;
+  createdAt: string | null;
+  citizenName: string;
+  priority: string;
+  photoUrl?: string | null;
+}
 
-const urgencyOptions = [
-  { label: "All Urgency", value: "" },
-  { label: "Low", value: "low" },
-  { label: "Medium", value: "medium" },
-  { label: "High", value: "high" },
-  { label: "Critical", value: "critical" },
-];
+// ComplaintCard.tsx
+interface ComplaintCardProps {
+  complaint: Complaint; // single item, not array
+}
 
-export default function SanitationCardList() {
-  const [categoryFilter, setCategoryFilter] = React.useState("");
-  const [urgencyFilter, setUrgencyFilter] = React.useState("");
-
-  // Filter complaints based on selected filters
-  const filteredComplaints = complaints.filter((item) => {
-    return (
-      (categoryFilter === "" || item.category === categoryFilter) &&
-      (urgencyFilter === "" || item.urgency === urgencyFilter)
-    );
-  });
-
+export default function ComplaintCard({ complaint }: ComplaintCardProps) {
   return (
-    <div className="mx-10 py-5">
-      {/* Filters */}
-      <div className="flex gap-4 mb-6">
-        <DropdownRadioFilter
-          label="Category"
-          options={categoryOptions}
-          value={categoryFilter}
-          onChange={setCategoryFilter}
+    <div className="my-5 p-4 rounded-xl flex flex-col gap-2 bg-[#f0f0f0] shadow-md">
+      <div className="flex items-center gap-3">
+        <img
+          src={
+            complaint.photoUrl
+              ? `http://localhost:5000${complaint.photoUrl}`
+              : "https://github.com/shadcn.png"
+          }
+          alt={complaint.citizenName}
+          className="w-13 h-13 rounded-full object-cover border-2 border-blue-500 shadow"
         />
-        <DropdownRadioFilter
-          label="Urgency"
-          options={urgencyOptions}
-          value={urgencyFilter}
-          onChange={setUrgencyFilter}
-        />
+        <p>{complaint.citizenName}</p>
       </div>
 
-      {/* Complaint cards */}
-      {filteredComplaints.length === 0 && (
-        <p className="text-center text-gray-500">No complaints found.</p>
-      )}
-      {filteredComplaints.map((item) => (
-        <div
-          key={item.id}
-          className="my-5 p-4 rounded-xl flex flex-col gap-1 bg-[#969696]"
-        >
-          <p className="font-bold">{item.name}</p>
-          <p className="text-xl font-semibold">{item.message}</p>
-          <div className="flex justify-between text-sm">
-            <span className="capitalize">{item.category}</span>
-            <span className="flex items-center gap-1">
-              <GrLocationPin size={20} />
-              {item.location}
-            </span>
-          </div>
-          <div className="flex justify-between text-xs text-gray-200 mt-1">
-            <span>Urgency: {item.urgency}</span>
-            <span>{item.timestamp}</span>
-          </div>
-        </div>
-      ))}
+      <p className="text-xl font-semibold text-center">
+        {complaint.description}
+      </p>
+
+      <div className="flex justify-between text-sm text-gray-700 px-2">
+        <span className="capitalize">{complaint.category}</span>
+        <span className="flex items-center gap-1">
+          <GrLocationPin size={18} />
+          {complaint.location}
+        </span>
+      </div>
+
+      <div className="flex justify-between text-xs text-gray-500 mt-1 px-2">
+        <span>Priority : {complaint.priority}</span>
+        <span>
+          {complaint.createdAt &&
+            format(new Date(complaint.createdAt), "dd/MM/yyyy")}
+        </span>
+      </div>
     </div>
   );
 }
