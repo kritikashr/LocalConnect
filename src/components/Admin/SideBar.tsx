@@ -63,7 +63,7 @@ export function AppSidebar() {
   const pathname = usePathname();
 
   return (
-    <Sidebar className="pt-20">
+    <Sidebar>
       <SidebarContent>
         <div className="h-full flex">
           <SidebarGroup>
@@ -74,7 +74,7 @@ export function AppSidebar() {
 
             <div className="flex flex-col justify-between h-full">
               <SidebarGroupContent>
-                <SidebarMenu className="pt-4">
+                <SidebarMenu className="pt-8">
                   {items.map((item) => {
                     const isActive = pathname === item.url;
 

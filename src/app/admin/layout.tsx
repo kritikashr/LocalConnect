@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
+import "../globals.css";
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/Admin/SideBar";
@@ -18,12 +19,16 @@ export default async function AdminLayout({
   }
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <main className="w-full bg-white">
-        <SidebarTrigger />
-        {children}
-      </main>
-    </SidebarProvider>
+    <html lang="en">
+      <body>
+        <SidebarProvider>
+          <AppSidebar />
+          <main className="w-full bg-white">
+            <SidebarTrigger />
+            {children}
+          </main>
+        </SidebarProvider>
+      </body>
+    </html>
   );
 }
