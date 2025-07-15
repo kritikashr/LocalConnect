@@ -19,22 +19,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 interface CategoryFilterProps {
   selectedCategory: string;
+  categories: string[];
 }
-
-const categories = [
-  "All",
-  "Electrician",
-  "Plumber",
-  "Carpenter",
-  "House Cleaner",
-  "AC/Fridge Repair",
-  "Beautician",
-  "Taxi Driver",
-  "Pest Control",
-];
 
 export default function CategoryFilter({
   selectedCategory,
+  categories,
 }: CategoryFilterProps) {
   const [open, setOpen] = React.useState(false);
   const router = useRouter();

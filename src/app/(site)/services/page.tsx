@@ -1,8 +1,9 @@
 import ServiceProviderCard from "@/components/service/ServiceProviderCard";
-import CategoryFilter from "@/components/service/CategoryFilter";
+import CategoryFilter from "@/components/CategoryFilter";
 import { Provider } from "@/lib/type";
-import { getApprovedServiceProviders, getUserSession } from "@/lib/api";
+import { getApprovedServiceProviders } from "@/lib/api";
 import Link from "next/link";
+import { Suspense } from "react";
 
 interface PageProps {
   searchParams: {
@@ -11,16 +12,21 @@ interface PageProps {
 }
 
 export default async function ServiceProviderPage({ searchParams }: PageProps) {
-  const category = searchParams.category || "All";
-  const session = await getUserSession();
+  const params = await searchParams;
+  const category = params.category || "All";
+  const categories = [
+    "All",
+    "Electrician",
+    "Plumber",
+    "Carpenter",
+    "House Cleaner",
+    "AC/Fridge Repair",
+    "Beautician",
+    "Taxi Driver",
+    "Pest Control",
+  ];
 
-  if (!session || typeof session.accessToken !== "string")
-    return <p>Unauthorized</p>;
-
-  const providers = await getApprovedServiceProviders(
-    category,
-    session.accessToken
-  );
+  const providers = await getApprovedServiceProviders(category);
 
   return (
     <div className="min-h-screen px-6 py-12">
@@ -29,22 +35,24 @@ export default async function ServiceProviderPage({ searchParams }: PageProps) {
           <h1 className="text-4xl font-bold text-gray-800">
             Service Providers
           </h1>
-          <CategoryFilter selectedCategory={category} />
+          <CategoryFilter selectedCategory={category} categories={categories} />
         </div>
         <p className="text-gray-500 mb-10 text-center sm:text-left pl-4">
           Find trusted professionals near you.
         </p>
 
-        <div className="grid gap-6 lg:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-          {providers.map((p, i) => (
-            <ServiceProviderCard key={i} provider={p} />
-          ))}
-          {providers.length === 0 && (
-            <p className="text-center col-span-full text-gray-500  mt-6">
-              😔 No providers found in this category.
-            </p>
-          )}
-        </div>
+        <Suspense fallback={<div>Loading...</div>}>
+          <div className="grid gap-6 lg:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+            {providers.map((p, i) => (
+              <ServiceProviderCard key={i} provider={p} />
+            ))}
+            {providers.length === 0 && (
+              <p className="text-center col-span-full text-gray-500  mt-6">
+                😔 No providers found in this category.
+              </p>
+            )}
+          </div>
+        </Suspense>
       </div>
       <Link
         href="/service-provider"
