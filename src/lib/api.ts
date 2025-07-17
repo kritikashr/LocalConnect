@@ -261,6 +261,14 @@ export async function getAllComplaints(
   });
 }
 
+//Get all complaints by user
+export async function getComplaints(category: string): Promise<Complaint[]> {
+  const query =
+    category && category !== "All"
+      ? `?category=${encodeURIComponent(category)}`
+      : "";
+  return fetchAPI<Complaint[]>("/api/Complaint" + query);
+}
 //update complaint status
 export async function updateComplaintStatus(
   id: number,
@@ -353,18 +361,13 @@ export async function deleteUser(
 
 //Get approved service provider
 export async function getApprovedServiceProviders(
-  category: string,
-  token: string | undefined
+  category: string
 ): Promise<Provider[]> {
   const query =
     category && category !== "All"
       ? `?category=${encodeURIComponent(category)}`
       : "";
-  return fetchAPI<Provider[]>("/api/ServiceProviders/approved" + query, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  return fetchAPI<Provider[]>("/api/ServiceProviders/approved" + query);
 }
 
 // get user complaints

@@ -5,8 +5,8 @@ import { Notice } from "@/lib/type";
 import { format } from "date-fns";
 import { Smartphone } from "lucide-react";
 
-const NewsCard = () => {
-  const notices = use(getNotices());
+const NewsCard = async() => {
+  const notices = await getNotices();
 
   return (
     <>
