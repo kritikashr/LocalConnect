@@ -29,6 +29,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/components/user/AvatarUploader.tsx"
-  ],
+, "src/components/PaginationComponent.tsx"  ],
   "exclude": ["node_modules"]
 }
