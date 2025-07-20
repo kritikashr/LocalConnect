@@ -1,3 +1,4 @@
+"use server"
 import {
   Complaint,
   LoginResponse,
@@ -252,9 +253,14 @@ export async function postComplaint(
 }
 //Get all complaints
 export async function getAllComplaints(
+  category: string,
   token: string | undefined
 ): Promise<Complaint[]> {
-  return fetchAPI<Complaint[]>("/api/admin/complaints", {
+  const query =
+    category && category !== "All"
+      ? `?category=${encodeURIComponent(category)}`
+      : "";
+  return fetchAPI<Complaint[]>("/api/admin/complaints" + query, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

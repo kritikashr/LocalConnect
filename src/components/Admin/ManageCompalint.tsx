@@ -1,26 +1,66 @@
 import { getAllComplaints, getUserSession } from "@/lib/api";
 import { format } from "date-fns";
-import Link from "next/link";
-import { Button } from "../ui/button";
 import UpdateComplaintStatus from "../Form/UpdateComplaintStauts";
+import CategoryFilter from "../CategoryFilter";
 
-export default async function ManageComplaint() {
+export interface PageProps {
+  searchParams: {
+    category?: string;
+  };
+}
+
+export default async function ManageComplaint({ searchParams }: PageProps) {
   const session = await getUserSession();
 
   // If session is null or doesn't have an accessToken, unauthorized
   if (!session || typeof session.accessToken !== "string")
     return <p>Unauthorized</p>;
 
-  const complaints = await getAllComplaints(session.accessToken);
+  const params = await searchParams;
+  const category = params.category || "All";
+  const categories = [
+    "All",
+    "request",
+    "offer",
+    "aid_related",
+    "medical_help",
+    "medical_products",
+    "search_and_rescue",
+    "security",
+    "military",
+    "water",
+    "food",
+    "shelter",
+    "clothing",
+    "money",
+    "missing_people",
+    "refugees",
+    "death",
+    "other_aid",
+    "infrastructure_related",
+    "transport",
+    "buildings",
+    "electricity",
+    "tools",
+    "hospitals",
+    "shops",
+    "aid_centers",
+    "other_infrastructure",
+    "weather_related",
+    "floods",
+    "storm",
+    "fire",
+    "earthquake",
+    "cold",
+    "other_weather",
+    "direct_report",
+  ];
+  const complaints = await getAllComplaints(category, session.accessToken);
 
   return (
     <div className="p-4 w-full">
-      <h2 className="text-xl font-semibold ">Manage Complaints</h2>
-      <Link href="/file-complaint">
-        <Button className="mt-4 mb-1 rounded-none text-base bg-white text-black border hover:bg-gray-200">
-          Add Complaint
-        </Button>
-      </Link>
+      <h2 className="text-xl font-semibold mb-3">Manage Complaints</h2>
+      <CategoryFilter selectedCategory={category} categories={categories} />
       <table className="min-w-full border text-sm mt-5">
         <thead className="bg-gray-100">
           <tr>

@@ -64,8 +64,8 @@ export default async function ServiceProviderPage({ searchParams }: PageProps) {
             <ComplaintCard key={c.id} complaint={c} />
           ))}
           {complaints.length === 0 && (
-            <p className="text-center col-span-full text-gray-500  mt-6">
-              😔 No providers found in this category.
+            <p className="text-center col-span-full text-gray-500  mt-10">
+              😔 No complaints found in this category.
             </p>
           )}
         </div>
