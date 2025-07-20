@@ -25,9 +25,9 @@ export default async function ManageComplaint({
   // If session is null or doesn't have an accessToken, unauthorized
   if (!session || typeof session.accessToken !== "string")
     return <p>Unauthorized</p>;
-
-  const category = searchParams.category || "All";
-  const currentPage = parseInt(searchParams.page || "1", 10); // Default to page 1
+  const params = await searchParams;
+  const category = params.category || "All";
+  const currentPage = parseInt(params.page || "1", 10); // Default to page 1
   const pageSize = 10;
 
   // Define categories for the filter

@@ -9,7 +9,8 @@ const Page = async ({
 }: {
   searchParams: { category?: string; page?: string };
 }) => {
-  const category = searchParams.category || "All";
+  const params = await searchParams;
+  const category = params.category || "All";
   const categories = [
     "All",
     "request",
@@ -47,7 +48,7 @@ const Page = async ({
     "other_weather",
     "direct_report",
   ];
-  const currentPage = parseInt(searchParams.page || "1", 10);
+  const currentPage = parseInt(params.page || "1", 10);
 
   const pageSize = 10;
 
