@@ -3,6 +3,7 @@ import ComplaintCard from "@/components/Complaint/ComplaintCard";
 import { PaginationComponent } from "@/components/PaginationComponent";
 import { getComplaints } from "@/lib/api";
 import { Complaint } from "@/lib/type";
+import Link from "next/link";
 
 const Page = async ({
   searchParams,
@@ -64,10 +65,7 @@ const Page = async ({
       <div className="mx-8">
         <div className="flex items-center justify-between mb-2">
           <h1 className="text-4xl font-bold text-gray-800">Complaints</h1>
-          <CategoryFilter
-            selectedCategory={category}
-            categories={categories}
-          />
+          <CategoryFilter selectedCategory={category} categories={categories} />
         </div>
 
         {/* Display complaints */}
@@ -90,6 +88,12 @@ const Page = async ({
             category={category}
           />
         </div>
+        <Link
+          href="/file-complaint"
+          className="fixed bottom-6 right-13 bg-blue-600 text-white px-5 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition-transform duration-200 hover:scale-105 text-sm font-medium z-50"
+        >
+          File your complaint
+        </Link>
       </div>
     </div>
   );
