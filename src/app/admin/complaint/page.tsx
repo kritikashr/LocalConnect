@@ -1,9 +1,9 @@
 import ManageComplaint from '@/components/Admin/ManageCompalint'
 import React from 'react'
 
-const page = () => {
+const page = ({ searchParams }: { searchParams: { category?: string, page?: string } }) => {
   return (
-    <div><ManageComplaint/></div>
+    <div><ManageComplaint searchParams={searchParams} /></div>
   )
 }
 

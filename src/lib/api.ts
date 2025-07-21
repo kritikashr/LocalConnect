@@ -1,3 +1,4 @@
+"use server";
 import {
   Complaint,
   LoginResponse,
@@ -252,23 +253,60 @@ export async function postComplaint(
 }
 //Get all complaints
 export async function getAllComplaints(
-  token: string | undefined
-): Promise<Complaint[]> {
-  return fetchAPI<Complaint[]>("/api/admin/complaints", {
+  category: string,
+  token: string | undefined,
+  page: number = 1,
+  pageSize: number = 10
+): Promise<{ complaints: Complaint[]; totalPages: number }> {
+  const query = [
+    category && category !== "All"
+      ? `category=${encodeURIComponent(category)}`
+      : "",
+    `page=${page}`,
+    `pageSize=${pageSize}`,
+  ]
+    .filter(Boolean)
+    .join("&");
+
+  // Fetch data from the API
+  const response = await fetchAPI<{
+    complaints: Complaint[];
+    totalPages: number;
+  }>(`/api/admin/complaints?${query}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+
+  return response;
 }
 
 //Get all complaints by user
-export async function getComplaints(category: string): Promise<Complaint[]> {
-  const query =
+export async function getComplaints(
+  category: string,
+  page: number = 1,
+  pageSize: number = 10
+): Promise<{ complaints: Complaint[]; totalPages: number }> {
+  // Generate query string for category, page, and pageSize
+  const query = [
     category && category !== "All"
-      ? `?category=${encodeURIComponent(category)}`
-      : "";
-  return fetchAPI<Complaint[]>("/api/Complaint" + query);
+      ? `category=${encodeURIComponent(category)}`
+      : "",
+    `page=${page}`,
+    `pageSize=${pageSize}`,
+  ]
+    .filter(Boolean)
+    .join("&");
+
+  // Fetch data from the API
+  const response = await fetchAPI<{
+    complaints: Complaint[];
+    totalPages: number;
+  }>("/api/Complaint?" + query);
+
+  return response;
 }
+
 //update complaint status
 export async function updateComplaintStatus(
   id: number,
