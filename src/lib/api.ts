@@ -139,8 +139,6 @@ export async function userLogin(user: TLoginSchema): Promise<LoginResponse> {
       body: JSON.stringify(user),
       credentials: "include",
     },
-    5000, // 5 seconds timeout
-    false // no retry for login
   );
   return response;
 }
