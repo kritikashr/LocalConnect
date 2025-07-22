@@ -4,11 +4,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, TLoginSchema } from "@/lib/validation";
 import { Button } from "../ui/button";
-import { userLogin } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import ErrorAlert from "../alert/ErrorAlert";
 import { toast } from "sonner";
 
+const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 const Login = () => {
   const router = useRouter();
   const [errorAlert, setErrorAlert] = useState(false);
@@ -23,7 +23,20 @@ const Login = () => {
 
   const onSubmit = async (data: TLoginSchema) => {
     try {
-      const user = await userLogin(data);
+      const res = await fetch(`${API_BASE}/api/Auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        throw new Error("Invalid credentials");
+      }
+
+      const user = await res.json();
       // Save to localStorage
       localStorage.setItem("userToken", user.accessToken);
       localStorage.setItem("userName", user.name);
