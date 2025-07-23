@@ -44,19 +44,19 @@ export const requestSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "Description is required"),
   categoryName: z.enum(
-      [
-        "Electrician",
-        "Plumber",
-        "Carpenter",
-        "House Cleaner",
-        "AC/Fridge Repair",
-        "Beautician",
-        "Taxi Driver",
-        "Pest Control",
-      ],
-      {
-        message: "Category is required",
-      }
+    [
+      "Electrician",
+      "Plumber",
+      "Carpenter",
+      "House Cleaner",
+      "AC/Fridge Repair",
+      "Beautician",
+      "Taxi Driver",
+      "Pest Control",
+    ],
+    {
+      message: "Category is required",
+    }
   ),
   citizenId: z.coerce.number().min(1, "User not identified."),
 });
@@ -66,12 +66,9 @@ export type TRequestSchema = z.infer<typeof requestSchema>;
 export const complaintSchema = z.object({
   description: z.string().min(3, { message: "Description is required" }),
   citizenId: z.coerce.number().min(1, "User not identified."),
-  priority: z.enum(
-    ["low", "medium", "high", "critical"],
-    {
-      message: "Priority is required",
-    }
-  ),
+  priority: z.enum(["low", "medium", "high", "critical"], {
+    message: "Priority is required",
+  }),
   location: z.string().min(3, { message: "Location is required" }),
 });
 
@@ -112,3 +109,13 @@ export const serviceProviderSchema = z
   });
 
 export type TServiceProviderSchema = z.infer<typeof serviceProviderSchema>;
+
+// Zod schema for email validation
+export const emailSchema = z.object({
+  email: z
+    .string()
+    .email("Please enter a valid email address")
+    .min(1, "Email is required"),
+});
+
+export type TEmailSchema = z.infer<typeof emailSchema>;

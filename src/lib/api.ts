@@ -83,8 +83,19 @@ async function fetchAPI<T = any>(
   }
 
   if (!res.ok) {
-    const message = await res.text();
-    throw new Error(`Error ${res.status}: ${message}`);
+    let errorMessage = "Something went wrong";
+
+    try {
+      const errorBody = await res.json();
+      if (errorBody?.message) {
+        errorMessage = errorBody.message;
+      }
+    } catch (err) {
+      errorMessage = await res.text();
+    }
+
+    // Throw with clean message
+    throw new Error(errorMessage);
   }
 
   if (options.method === "DELETE" || res.status === 204) {
@@ -132,14 +143,11 @@ export async function insertProvider(user: TSignupSchema): Promise<void> {
 
 // user login
 export async function userLogin(user: TLoginSchema): Promise<LoginResponse> {
-  const response = await fetchAPI<LoginResponse>(
-    "/api/Auth/login",
-    {
-      method: "POST",
-      body: JSON.stringify(user),
-      credentials: "include",
-    },
-  );
+  const response = await fetchAPI<LoginResponse>("/api/Auth/login", {
+    method: "POST",
+    body: JSON.stringify(user),
+    credentials: "include",
+  });
   return response;
 }
 
@@ -426,5 +434,13 @@ export async function getUserServiceRequests(
     headers: {
       Authorization: `Bearer ${token}`,
     },
+  });
+}
+
+// Post email subscription
+export async function postEmailSubscription(email: string): Promise<void> {
+  return fetchAPI<void>("/api/Newsletter", {
+    method: "POST",
+    body: JSON.stringify({ email }),
   });
 }

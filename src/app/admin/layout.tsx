@@ -5,6 +5,7 @@ import "../globals.css";
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/Admin/SideBar";
+import { SessionProviderWrapper } from "@/components/SessionProviderWrapper";
 
 export default async function AdminLayout({
   children,
@@ -25,7 +26,7 @@ export default async function AdminLayout({
           <AppSidebar />
           <main className="w-full bg-white">
             <SidebarTrigger />
-            {children}
+            <SessionProviderWrapper>{children}</SessionProviderWrapper>
           </main>
         </SidebarProvider>
       </body>
