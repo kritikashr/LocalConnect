@@ -40,7 +40,7 @@ const ManageNews: React.FC = () => {
               <td className="border px-3 py-4">{notice.contact}</td>
               <td className="border px-3 h-full text-center">
                 <form action={handleDeleteNews}>
-                  <input type="hidden" name="userId" value={notice.id} />
+                  <input type="hidden" name="newsId" value={notice.id} />
                   <button className="bg-red-600 text-white px-3 py-1 rounded ">
                     Delete
                   </button>

@@ -50,7 +50,7 @@ async function fetchWithTimeout(
 async function fetchAPI<T = any>(
   path: string,
   options: RequestInit = {},
-  timeout = 5000,
+  timeout = 10000,
   retry = true // flag to avoid infinite retry loop
 ): Promise<T> {
   const res = await fetchWithTimeout(
@@ -198,9 +198,12 @@ export async function createNotice(
 }
 
 // Delete a notice
-export async function deleteNotice(id: number): Promise<void> {
+export async function deleteNotice(id: number, token: string): Promise<void> {
   await fetchAPI<void>(`/api/News/${id}`, {
     method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 }
 
