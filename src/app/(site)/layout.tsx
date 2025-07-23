@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import AuthProvider from "@/components/AuthProvider";
 import { Toaster } from "sonner";
 import "../globals.css"; // Ensure this is the correct path to your global styles
+import Footer from "@/components/Footer";
 
 // Import the Inter font from Google Fonts
 const inter = Inter({
@@ -49,6 +50,7 @@ export default function RootLayout({
             />
             {children}
           </div>
+          <Footer/>
         </AuthProvider>
       </body>
     </html>
