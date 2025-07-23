@@ -1,12 +1,16 @@
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "../globals.css";
+import { Metadata } from "next"; 
 import Navbar from "@/components/Navbar";
 import AuthProvider from "@/components/AuthProvider";
 import { Toaster } from "sonner";
+import "../globals.css"; // Ensure this is the correct path to your global styles
+import Footer from "@/components/Footer";
 
+// Import the Inter font from Google Fonts
 const inter = Inter({
   subsets: ["latin"],
+  weight: ["400", "600"],
+  display: "swap", // Helps with better font rendering
 });
 
 export const metadata: Metadata = {
@@ -16,12 +20,22 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={`${inter.className}  antialiased`}>
+      <head>
+        {/* Optional: Add the preload link for faster font loading */}
+        <link
+          rel="preload"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+      </head>
+      <body className={`${inter.className} antialiased`}>
         <AuthProvider>
           <Navbar />
           <div className="min-h-screen bg-blue-50">
@@ -36,6 +50,7 @@ export default function RootLayout({
             />
             {children}
           </div>
+          <Footer/>
         </AuthProvider>
       </body>
     </html>
