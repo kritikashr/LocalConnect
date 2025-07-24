@@ -430,3 +430,12 @@ export async function getUserServiceRequests(
     },
   });
 }
+
+//get news
+export async function getNepaliNews() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/news`)
+    .then((res) => res.json())
+    .catch(console.error);
+
+  return res;
+}

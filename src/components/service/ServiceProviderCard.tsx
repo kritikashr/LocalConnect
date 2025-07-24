@@ -20,25 +20,21 @@ const ServiceProviderCard = ({
     <div className="bg-gradient-to-b from-white to-gray-50 rounded-2xl border border-gray-200 shadow-md hover:shadow-xl transition-shadow duration-300 p-6 w-full max-w-sm text-center">
       {/* Image */}
       <img
-        src={
-          provider.photoUrl
-            ? `http://localhost:5000${provider.photoUrl}`
-            : "https://github.com/shadcn.png"
-        }
+        src={provider.photoUrl || "https://github.com/shadcn.png"}
         alt={provider.name}
-        className="w-20 h-20 mx-auto rounded-full object-cover border-2 border-blue-500 shadow"
+        className="w-20 h-20 mx-auto rounded-full object-cover border-2 border-indigo-500 shadow"
       />
 
       {/* Name & Category */}
       <h2 className="text-xl font-semibold text-gray-800 mt-4">
         {provider.name}
       </h2>
-      <span className="inline-block mt-1 px-3 py-1 text-xs bg-indigo-100 text-blue-700 rounded-sm font-medium">
+      <span className="inline-block mt-1 px-3 py-1 text-xs bg-indigo-100 text-indigo-700 rounded-sm font-medium">
         {provider.category}
       </span>
 
       {/* Experience Highlighted */}
-      <p className="mt-4 text-sm font-bold text-blue-600">
+      <p className="mt-4 text-sm font-bold text-indigo-600">
         {provider.experienceYear} years of experience
       </p>
 
@@ -51,7 +47,7 @@ const ServiceProviderCard = ({
       <div className="flex justify-center items-center mt-3 text-yellow-500">
         <Star className="w-4 h-4 fill-yellow-500 stroke-yellow-500" />
         <span className="ml-1 text-sm font-semibold">
-          {(provider.rating ?? 0).toFixed(1)}
+          {provider.rating.toFixed(1)}
         </span>
       </div>
 

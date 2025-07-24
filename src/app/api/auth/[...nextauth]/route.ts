@@ -76,8 +76,8 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email ?? "";
         session.user.role = typeof token.role === "string" ? token.role : "";
         session.user.name = token.name ?? "";
-        session.user.id = token.id ?? "";
-        session.user.accessToken = token.accessToken ?? "";
+        session.user.id = typeof token.id === "string" ? token.id : (token.id ? String(token.id) : "");
+        session.user.accessToken = typeof token.accessToken === "string" ? token.accessToken : "";
       }
       return session;
     },
