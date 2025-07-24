@@ -23,8 +23,10 @@ export default async function ManageComplaint({
   const session = await getUserSession();
 
   // If session is null or doesn't have an accessToken, unauthorized
-  if (!session || typeof session.accessToken !== "string")
+  if (!session || !session.accessToken || session.accessToken === "undefined") {
     return <p>Unauthorized</p>;
+  }
+
   const params = await searchParams;
   const category = params.category || "All";
   const currentPage = parseInt(params.page || "1", 10); // Default to page 1
@@ -76,7 +78,7 @@ export default async function ManageComplaint({
     // Fetch complaints and total pages from the backend
     const data = await getAllComplaints(
       category,
-      session.accessToken,
+      session.accessToken as string,
       currentPage,
       pageSize
     );

@@ -18,7 +18,7 @@ export async function handleApprove(formData: FormData) {
   if (!session?.accessToken) throw new Error("Unauthorized");
   if (!id) throw new Error("Missing provider ID");
 
-  await updateServiceProviderStatus(Number(id), session.accessToken);
+  await updateServiceProviderStatus(Number(id), session.accessToken as string);
   revalidatePath("/admin/provider");
 }
 
@@ -29,7 +29,7 @@ export async function handleDelete(formData: FormData) {
   if (!session?.accessToken) throw new Error("Unauthorized");
   if (!id) throw new Error("Missing provider ID");
 
-  await deleteServiceProvider(Number(id), session.accessToken);
+  await deleteServiceProvider(Number(id), session.accessToken as string);
   revalidatePath("/admin/provider");
 }
 
@@ -40,7 +40,7 @@ export async function handleDeleteUsers(formData: FormData) {
   if (!session?.accessToken) throw new Error("Unauthorized");
   if (!id) throw new Error("Missing user ID");
 
-  await deleteUser(Number(id), session.accessToken);
+  await deleteUser(Number(id), session.accessToken as string);
   revalidatePath("/admin/users");
 }
 
@@ -51,6 +51,7 @@ export async function handleDeleteNews(formData: FormData) {
   if (!session?.accessToken) throw new Error("Unauthorized");
   if (!id) throw new Error("Missing news ID");
 
+
   await deleteNotice(Number(id), session.accessToken);
   revalidatePath("/admin/news");
 }
@@ -60,13 +61,13 @@ export async function handleRequestStatus(formData: FormData) {
   const id = formData.get("requestId");
   const status = formData.get("currentStatus");
 
-  if (!session?.accessToken) throw new Error("Unauthorized");
+  if (!session?.accessToken || typeof session.accessToken !== "string") throw new Error("Unauthorized");
   if (!id || !status) throw new Error("Missing request ID or status");
 
   await updateServiceRequestStatus(
     Number(id),
     status.toString(),
-    session.accessToken
+    session.accessToken as string
   );
   revalidatePath("/admin/request");
 }
@@ -82,7 +83,7 @@ export async function handleComplaintStatus(formData: FormData) {
   await updateComplaintStatus(
     Number(id),
     status.toString(),
-    session.accessToken
+    session.accessToken as string
   );
   revalidatePath("/admin/complaint");
 }

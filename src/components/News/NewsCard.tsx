@@ -1,38 +1,89 @@
-import { getNotices } from "@/lib/api";
-import { GrLocationPin } from "react-icons/gr";
-import React, { use } from "react";
-import { Notice } from "@/lib/type";
-import { format } from "date-fns";
-import { Smartphone } from "lucide-react";
+"use client";
 
-const NewsCard = async() => {
-  const notices = await getNotices();
+import React, { useEffect, useState } from "react";
+import { Calendar, Globe } from "lucide-react";
+
+interface NewsArticle {
+  articleId: string;
+  title: string;
+  summary: string;
+  publishedDate: string;
+  link: string;
+  sourceName?: string;
+  keywords?: string[];
+}
+
+function stripHtmlTags(html: string) {
+  const div = document.createElement("div");
+  div.innerHTML = html;
+  return div.textContent || div.innerText || "";
+}
+
+const NewsCard = () => {
+  const [articles, setArticles] = useState<NewsArticle[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/news/external")
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
+      .then((data: NewsArticle[]) => {
+        setArticles(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching news:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <div>Loading news...</div>;
+  if (articles.length === 0) return <div>No news available</div>;
 
   return (
-    <>
-      {notices.map((notice: Notice) => (
+    <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 mt-6">
+      {articles.map((news) => (
         <div
-          key={notice.id}
-          className="my-5 p-6 rounded flex flex-col gap-4 bg-white shadow-md hover:shadow-lg transition-all"
+          key={news.link}
+          className="flex flex-col justify-between bg-gradient-to-b from-white to-gray-50 rounded-2xl border border-gray-200 shadow-md hover:shadow-xl transition-shadow duration-300 p-4 w-full max-w-sm mx-auto h-full"
         >
-          <p className="text-xl font-bold text-gray-800">{notice.title}</p>
-          <p className="text-lg text-gray-700">{notice.description}</p>
-          <div className="flex justify-between text-sm text-gray-600">
-            <span className="capitalize flex items-center gap-1">
-              <Smartphone  size={18} className=" text-gray-500" />
-              {notice.contact}
-            </span>
-            <span className="flex items-center gap-1">
-              <GrLocationPin size={18} className="text-gray-500" />
-              {notice.location}
-            </span>
-          </div>
-          <div className="flex justify-between text-xs text-gray-500 ">
-            <span>{format(notice.date, "dd MMM yyyy, hh:mm a")}</span>
+          {/* Title */}
+          <a
+            href={news.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-md font-semibold text-indigo-700 hover:underline line-clamp-2 mb-2"
+          >
+            {news.title}
+          </a>
+
+          {/* Summary with HTML stripped */}
+          <p className="text-sm text-gray-600 mb-3 line-clamp-3">
+            {stripHtmlTags(news.summary) || "No description available."}
+          </p>
+
+          {/* Footer */}
+          <div className="flex items-center justify-between text-sm text-gray-500 border-t pt-3 mt-auto">
+            <div className="flex items-center gap-1">
+              <Globe className="w-4 h-4" />
+              <span>{news.sourceName || "Unknown"}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <Calendar className="w-4 h-4" />
+              <span>
+                {new Date(news.publishedDate).toLocaleDateString(undefined, {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </span>
+            </div>
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 };
 

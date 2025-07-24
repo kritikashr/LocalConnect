@@ -25,7 +25,7 @@ const SignupForm = () => {
       // console.log(data);
       await insertUser(data);
       reset();
-      toast.success("You have been registered successfully!")
+      toast.success("You have been registered successfully!");
       router.push("/login");
     } catch (error) {
       setErrorAlert(true);
