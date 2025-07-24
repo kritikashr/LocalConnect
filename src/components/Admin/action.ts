@@ -1,6 +1,7 @@
 "use server";
 
 import {
+  deleteNotice,
   deleteServiceProvider,
   deleteUser,
   getUserSession,
@@ -50,7 +51,8 @@ export async function handleDeleteNews(formData: FormData) {
   if (!session?.accessToken) throw new Error("Unauthorized");
   if (!id) throw new Error("Missing news ID");
 
-  await deleteServiceProvider(Number(id), session.accessToken as string);
+
+  await deleteNotice(Number(id), session.accessToken);
   revalidatePath("/admin/news");
 }
 

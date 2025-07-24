@@ -56,7 +56,7 @@ export default async function ServiceProviderPage({ searchParams }: PageProps) {
       </div>
       <Link
         href="/service-provider"
-        className="fixed bottom-6 right-13 bg-blue-600 text-white px-5 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition-transform duration-200 hover:scale-105 text-sm font-medium z-50"
+        className="fixed bottom-12 right-13 bg-blue-600 text-white px-5 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition-transform duration-200 hover:scale-105 text-sm font-medium z-50"
       >
         Register as Provider
       </Link>
