@@ -18,12 +18,15 @@ const User = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
+  const [userPhoto, setUserPhoto] = useState("");
 
   useEffect(() => {
     const email = localStorage.getItem("userEmail") || "";
     const name = localStorage.getItem("userName") || "";
+    const photo = localStorage.getItem("photoUrl") || "";
     setUserEmail(email);
     setUserName(name);
+    setUserPhoto(photo);
     setIsLoggedIn(!!email);
   }, []);
 
@@ -39,24 +42,27 @@ const User = () => {
     <Popover>
       <PopoverTrigger>
         <Avatar className="w-11 h-11">
-          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarImage
+            src={userPhoto ? `http://localhost:5000${userPhoto}` : "/default.jpg"}
+            alt={userName}
+          />
           <AvatarFallback>
             {userName?.charAt(0)?.toUpperCase() || "U"}
           </AvatarFallback>
         </Avatar>
       </PopoverTrigger>
       <PopoverContent className="flex flex-col items-center justify-center gap-3 w-fit">
-        <Avatar className="w-14 h-14">
+        {/* <Avatar className="w-14 h-14">
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>
             {userName?.charAt(0)?.toUpperCase() || "U"}
           </AvatarFallback>
         </Avatar>
-        <p className="text-sm text-gray-700">{userEmail}</p>
+        <p className="text-sm text-gray-700">{userEmail}</p> */}
         <Button>
           <Link href="/user">Profile</Link>
         </Button>
-        <LogoutButton/>
+        <LogoutButton />
       </PopoverContent>
     </Popover>
   );

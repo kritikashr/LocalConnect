@@ -440,6 +440,14 @@ export async function getUserServiceRequests(
   });
 }
 
+//get news
+export async function getNepaliNews() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/news`)
+    .then((res) => res.json())
+    .catch(console.error);
+
+  return res;
+}
 // Post email subscription
 export async function postEmailSubscription(email: string): Promise<void> {
   return fetchAPI<void>("/api/Newsletter", {

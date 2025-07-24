@@ -43,6 +43,7 @@ const Login = () => {
       localStorage.setItem("userEmail", user.email);
       localStorage.setItem("userRole", user.role);
       localStorage.setItem("userId", user.id.toString());
+      localStorage.setItem("photoUrl", user.photoUrl);
 
       // Notify other tabs
       window.dispatchEvent(new Event("auth-change"));

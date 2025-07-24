@@ -2,6 +2,13 @@
 import { useEffect, useState } from "react";
 import { getNotices } from "@/lib/api";
 import { Notice } from "@/lib/type";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const Header = () => {
   const [news, setNews] = useState<Notice[]>([]);
@@ -9,23 +16,34 @@ const Header = () => {
   useEffect(() => {
     const fetchNews = async () => {
       const data = await getNotices();
-      setNews(data.slice(0, 3));
+      setNews(data.slice(0, 10));
     };
 
     fetchNews();
   }, []);
 
   return (
-    <div className="text-sm font-semibold text-white bg-primary py-3 flex justify-center gap-4">
+    <div className="text-sm font-semibold text-white bg-primary py-2 flex justify-center gap-4">
       Latest News:{" "}
-      {news.length > 0
-        ? news.map((item, index) => (
-            <span key={item.id} >
-              {item.title}
-              <span className="ml-4">{index < news.length - 1 && " • "}{" "}</span>
-            </span>
-          ))
-        : "Loading..."}
+      {news.length > 0 ? (
+        <Carousel>
+          <CarouselContent>
+            {news.map((item) => (
+              <CarouselItem
+                key={item.id}
+                className="flex-none text-center text-sm  w-1/3 border-l-1"
+              >
+                {item.title}
+              </CarouselItem>
+              
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      ) : (
+        "Loading..."
+      )}
     </div>
   );
 };
