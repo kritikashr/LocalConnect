@@ -50,7 +50,7 @@ async function fetchWithTimeout(
 async function fetchAPI<T = any>(
   path: string,
   options: RequestInit = {},
-  timeout = 5000,
+  timeout = 10000,
   retry = true // flag to avoid infinite retry loop
 ): Promise<T> {
   const res = await fetchWithTimeout(
@@ -83,8 +83,19 @@ async function fetchAPI<T = any>(
   }
 
   if (!res.ok) {
-    const message = await res.text();
-    throw new Error(`Error ${res.status}: ${message}`);
+    let errorMessage = "Something went wrong";
+
+    try {
+      const errorBody = await res.json();
+      if (errorBody?.message) {
+        errorMessage = errorBody.message;
+      }
+    } catch (err) {
+      errorMessage = await res.text();
+    }
+
+    // Throw with clean message
+    throw new Error(errorMessage);
   }
 
   if (options.method === "DELETE" || res.status === 204) {
@@ -132,16 +143,11 @@ export async function insertProvider(user: TSignupSchema): Promise<void> {
 
 // user login
 export async function userLogin(user: TLoginSchema): Promise<LoginResponse> {
-  const response = await fetchAPI<LoginResponse>(
-    "/api/Auth/login",
-    {
-      method: "POST",
-      body: JSON.stringify(user),
-      credentials: "include",
-    },
-    5000, // 5 seconds timeout
-    false // no retry for login
-  );
+  const response = await fetchAPI<LoginResponse>("/api/Auth/login", {
+    method: "POST",
+    body: JSON.stringify(user),
+    credentials: "include",
+  });
   return response;
 }
 
@@ -192,9 +198,12 @@ export async function createNotice(
 }
 
 // Delete a notice
-export async function deleteNotice(id: number): Promise<void> {
+export async function deleteNotice(id: number, token: string): Promise<void> {
   await fetchAPI<void>(`/api/News/${id}`, {
     method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 }
 
@@ -431,11 +440,10 @@ export async function getUserServiceRequests(
   });
 }
 
-//get news
-export async function getNepaliNews() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/news`)
-    .then((res) => res.json())
-    .catch(console.error);
-
-  return res;
+// Post email subscription
+export async function postEmailSubscription(email: string): Promise<void> {
+  return fetchAPI<void>("/api/Newsletter", {
+    method: "POST",
+    body: JSON.stringify({ email }),
+  });
 }

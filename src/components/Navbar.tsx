@@ -27,7 +27,7 @@ export default function Navbar() {
       <div className="flex gap-6 items-center">
         <Link href="/">Home</Link>
         <Link href="/services">Services</Link>
-        <Link href="/complaint">Complaint</Link>
+        {/* <Link href="/complaint">Complaint</Link> */}
         <Link href="/news">News</Link>
 
         {isLoggedIn ? <User /> : <Link href="/login">Login</Link>}

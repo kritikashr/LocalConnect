@@ -1,6 +1,7 @@
 "use server";
 
 import {
+  deleteNotice,
   deleteServiceProvider,
   deleteUser,
   getUserSession,
@@ -50,7 +51,7 @@ export async function handleDeleteNews(formData: FormData) {
   if (!session?.accessToken) throw new Error("Unauthorized");
   if (!id) throw new Error("Missing news ID");
 
-  await deleteServiceProvider(Number(id), session.accessToken as string);
+  await deleteNotice(Number(id), session.accessToken);
   revalidatePath("/admin/news");
 }
 
@@ -59,7 +60,8 @@ export async function handleRequestStatus(formData: FormData) {
   const id = formData.get("requestId");
   const status = formData.get("currentStatus");
 
-  if (!session?.accessToken || typeof session.accessToken !== "string") throw new Error("Unauthorized");
+  if (!session?.accessToken || typeof session.accessToken !== "string")
+    throw new Error("Unauthorized");
   if (!id || !status) throw new Error("Missing request ID or status");
 
   await updateServiceRequestStatus(
