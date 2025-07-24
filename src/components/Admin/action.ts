@@ -51,7 +51,7 @@ export async function handleDeleteNews(formData: FormData) {
   if (!session?.accessToken) throw new Error("Unauthorized");
   if (!id) throw new Error("Missing news ID");
 
-  await deleteNotice(Number(id), session.accessToken);
+  await deleteNotice(Number(id), session.accessToken as string);
   revalidatePath("/admin/news");
 }
 

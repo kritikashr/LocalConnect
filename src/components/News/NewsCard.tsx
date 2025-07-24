@@ -24,7 +24,7 @@ const NewsCard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/news/external")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/news/external`)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         return res.json();
