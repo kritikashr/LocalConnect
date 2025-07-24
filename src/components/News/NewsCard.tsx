@@ -82,10 +82,21 @@ const NewsCard = () => {
 
   // Fetch news only if page is valid
   useEffect(() => {
-    if (page <= totalPages || totalPages === 0) {
-      fetchNews(page);
-    }
-  }, [page, totalPages]);
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/news/external`)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return res.json();
+      })
+      .then((data: NewsArticle[]) => {
+        setArticles(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching news:", err);
+        setLoading(false);
+      });
+  }, []);
+
   if (loading) return <div>Loading news...</div>;
   if (error) return <div className="text-red-600">Error: {error}</div>;
   if (!articles || articles.length === 0) return <div>No news available</div>;
