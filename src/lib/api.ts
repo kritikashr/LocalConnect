@@ -447,6 +447,7 @@ export async function getNepaliNews() {
     .catch(console.error);
 
   return res;
+}
 // Post email subscription
 export async function postEmailSubscription(email: string): Promise<void> {
   return fetchAPI<void>("/api/Newsletter", {
