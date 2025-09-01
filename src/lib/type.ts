@@ -57,3 +57,10 @@ export interface Provider{
   phoneNumber: string;
   photoUrl?: string;
 }
+
+export interface UserStats {
+  totalUsers: number;
+  citizens: number;
+  serviceProviders: number;
+  admins: number;
+}
