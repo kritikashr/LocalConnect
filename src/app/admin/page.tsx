@@ -1,6 +1,24 @@
-import React from "react";
+import RecentComplaints from "@/components/Table/complaint";
+import RecentRequest from "@/components/Table/request";
+import RecentUsers from "@/components/Table/user";
+import {
+  getCompletedComplaintsCount,
+  getProviderCount,
+  getRequestCount,
+  getUserSession,
+  getUserStats,
+} from "@/lib/api";
+import React, { use } from "react";
 
-const page = () => {
+const page = async () => {
+  const session = await getUserSession();
+  const token = session?.accessToken as string | undefined;
+
+  const completedCount = await getCompletedComplaintsCount(token);
+  const userStats = await getUserStats(token);
+  const providerCount = await getProviderCount(token);
+  const requestCount = await getRequestCount(token);
+
   return (
     <div className="flex flex-col  gap-8 p-8">
       {/* Left Sidebar */}
@@ -15,20 +33,22 @@ const page = () => {
           <h3 className="text-lg font-semibold">Quick Stats</h3>
           <div className="grid grid-cols-4 gap-4 mt-4">
             <div className="border bg-white shadow-lg rounded-lg h-[15vh] flex flex-col items-center justify-center">
-              <p className="text-xl font-bold">2,450</p>
+              <p className="text-xl font-bold">{userStats.citizens}</p>
               <p className="text-sm text-gray-500">Active Users</p>
             </div>
             <div className="border bg-white shadow-lg rounded-lg h-[15vh] flex flex-col items-center justify-center">
-              <p className="text-xl font-bold">189</p>
+              <p className="text-xl font-bold">{requestCount}</p>
               <p className="text-sm text-gray-500">Pending Requests</p>
             </div>
             <div className="border bg-white shadow-lg rounded-lg h-[15vh] flex flex-col items-center justify-center">
-              <p className="text-xl font-bold">7,890</p>
+              <p className="text-xl font-bold">
+                {completedCount.toLocaleString()}
+              </p>
               <p className="text-sm text-gray-500">Resolved Complaints</p>
             </div>
             <div className="border bg-white shadow-lg rounded-lg h-[15vh] flex flex-col items-center justify-center">
-              <p className="text-xl font-bold">45</p>
-              <p className="text-sm text-gray-500">New Service Tickets</p>
+              <p className="text-xl font-bold">{providerCount}</p>
+              <p className="text-sm text-gray-500">Active Provider</p>
             </div>
           </div>
         </div>
@@ -36,97 +56,20 @@ const page = () => {
 
       {/* Main Content */}
       <div className="flex  w-full  gap-8">
-        <div className="w-3/4 flex flex-col gap-8">
-          <div className="bg-gray-200 shadow-lg rounded-lg p-6 ">
-            <h3 className="text-lg font-semibold mb-4">Recent Users</h3>
-            <div className="overflow-x-auto">
-              <table className="min-w-full table-auto">
-                <thead>
-                  <tr className="border-b">
-                    <th className="px-4 py-2 text-left">Request ID</th>
-                    <th className="px-4 py-2 text-left">Type</th>
-                    <th className="px-4 py-2 text-left">Assigned To</th>
-                    <th className="px-4 py-2 text-left">Status</th>
-                    <th className="px-4 py-2 text-left">Priority</th>
-                    <th className="px-4 py-2 text-left">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="px-4 py-2">RE0001</td>
-                    <td className="px-4 py-2">Support</td>
-                    <td className="px-4 py-2">Alice Smith</td>
-                    <td className="px-4 py-2 text-yellow-500">Pending</td>
-                    <td className="px-4 py-2 text-yellow-500">Medium</td>
-                    <td className="px-4 py-2">Details</td>
-                  </tr>
-                  {/* Add more rows as needed */}
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div className="bg-gray-200 shadow-lg rounded-lg p-6 ">
-            <h3 className="text-lg font-semibold mb-4">
-              Recent Service Requests
-            </h3>
-            <div className="overflow-x-auto">
-              <table className="min-w-full table-auto">
-                <thead>
-                  <tr className="border-b">
-                    <th className="px-4 py-2 text-left">Request ID</th>
-                    <th className="px-4 py-2 text-left">Type</th>
-                    <th className="px-4 py-2 text-left">Assigned To</th>
-                    <th className="px-4 py-2 text-left">Status</th>
-                    <th className="px-4 py-2 text-left">Priority</th>
-                    <th className="px-4 py-2 text-left">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="px-4 py-2">RE0001</td>
-                    <td className="px-4 py-2">Support</td>
-                    <td className="px-4 py-2">Alice Smith</td>
-                    <td className="px-4 py-2 text-yellow-500">Pending</td>
-                    <td className="px-4 py-2 text-yellow-500">Medium</td>
-                    <td className="px-4 py-2">Details</td>
-                  </tr>
-                  {/* Add more rows as needed */}
-                </tbody>
-              </table>
-            </div>
-          </div>
+        <div className="w-full flex flex-col gap-8">
           <div className="bg-gray-200 shadow-lg rounded-lg p-6">
-            <h3 className="text-lg font-semibold mb-4">Recent Complaints</h3>
-            <div className="overflow-x-auto">
-              <table className="min-w-full table-auto">
-                <thead>
-                  <tr className="border-b">
-                    <th className="px-4 py-2 text-left">Request ID</th>
-                    <th className="px-4 py-2 text-left">Type</th>
-                    <th className="px-4 py-2 text-left">Assigned To</th>
-                    <th className="px-4 py-2 text-left">Status</th>
-                    <th className="px-4 py-2 text-left">Priority</th>
-                    <th className="px-4 py-2 text-left">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="px-4 py-2">RE0001</td>
-                    <td className="px-4 py-2">Support</td>
-                    <td className="px-4 py-2">Alice Smith</td>
-                    <td className="px-4 py-2 text-yellow-500">Pending</td>
-                    <td className="px-4 py-2 text-yellow-500">Medium</td>
-                    <td className="px-4 py-2">Details</td>
-                  </tr>
-                  {/* Add more rows as needed */}
-                </tbody>
-              </table>
-            </div>
+            <RecentComplaints />
+          </div>
+          <div className="bg-gray-200 shadow-lg rounded-lg p-6 ">
+            <RecentRequest />
+          </div>
+          <div className="bg-gray-200 shadow-lg rounded-lg p-6 ">
+            <RecentUsers />
           </div>
         </div>
 
-        <div className="flex flex-col gap-8">
-          {/* Quick Actions */}
+        {/* <div className="flex flex-col gap-8">
+          Quick Actions
           <div className="bg-gray-200 shadow-lg rounded-lg p-6 ">
             <h3 className="text-lg font-semibold">Quick Actions</h3>
             <div className="grid grid-cols-1 gap-4 mt-4">
@@ -145,7 +88,7 @@ const page = () => {
             </div>
           </div>
 
-          {/* Recent Activity */}
+          Recent Activity
           <div className="bg-gray-200 shadow-lg rounded-lg p-6">
             <h3 className="text-lg font-semibold">Recent Activity</h3>
             <div className="mt-4">
@@ -163,7 +106,7 @@ const page = () => {
               </p>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

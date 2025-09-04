@@ -5,6 +5,7 @@ import {
   Notice,
   Provider,
   ServiceRequest,
+  UserStats,
 } from "./type";
 import {
   TComplaintSchema,
@@ -454,4 +455,52 @@ export async function postEmailSubscription(email: string): Promise<void> {
     method: "POST",
     body: JSON.stringify({ email }),
   });
+}
+
+// Get completed complaints count
+export async function getCompletedComplaintsCount(
+  token: string | undefined
+): Promise<number> {
+  const res = await fetchAPI<{ completedCount: number }>(
+    "/api/Complaint/count/completed",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return res.completedCount;
+}
+
+export async function getUserStats(
+  token: string | undefined
+): Promise<UserStats> {
+  return await fetchAPI<UserStats>("/api/Auth/stats", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+export async function getProviderCount(
+  token: string | undefined
+): Promise<number> {
+  const res = await fetchAPI<{ approvedCount: number }>("/api/ServiceProviders/approved/count", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.approvedCount;
+}
+
+export async function getRequestCount(
+  token: string | undefined
+): Promise<number> {
+  const res = await fetchAPI<{ pendingCount: number }>("/api/ServiceRequests/pending/count", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.pendingCount;
 }
