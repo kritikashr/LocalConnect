@@ -20,12 +20,10 @@ export default async function RecentRequest() {
 
   return (
     <div className=" w-full">
-      <h2 className="text-xl font-semibold mb-4">
-        Recent Service Request
-      </h2>
+      <h2 className="text-xl font-semibold mb-4">Recent Service Request</h2>
 
       <table className="min-w-full border text-sm">
-        <thead>
+        <thead className="w-full">
           <tr>
             <th className="border px-3 py-4">ID</th>
             <th className="border px-3 py-4">Title</th>
@@ -43,9 +41,10 @@ export default async function RecentRequest() {
             <td className="border px-3 py-4 text-center">
               {recentRequest.title}
             </td>
-            <td className="border px-3 py-4 text-center">
+            <td className="border px-3 py-4 text-center max-w-[200px] truncate">
               {recentRequest.description}
             </td>
+
             <td className="border px-3 py-4 text-center">
               {recentRequest.status}
             </td>

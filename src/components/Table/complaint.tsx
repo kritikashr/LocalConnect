@@ -16,7 +16,7 @@ export default async function RecentComplaints() {
     const data = await getAllComplaints(
       "All",
       session.accessToken as string,
-      1, 
+      1,
       1
     );
     complaints = data.complaints || [];
@@ -29,7 +29,7 @@ export default async function RecentComplaints() {
       <h2 className="text-xl font-semibold mb-3">Recent Complaints</h2>
 
       <table className="min-w-full border text-sm mt-5">
-        <thead >
+        <thead className="w-full">
           <tr>
             <th className="border px-3 py-4">ID</th>
             <th className="border px-3 py-4">Description</th>
@@ -40,7 +40,7 @@ export default async function RecentComplaints() {
             <th className="border px-3 py-4">Actions</th>
           </tr>
         </thead>
-        <tbody >
+        <tbody>
           {complaints.length === 0 ? (
             <tr>
               <td colSpan={7} className="text-center py-4 text-gray-500">
@@ -51,12 +51,18 @@ export default async function RecentComplaints() {
             complaints.map((req) => (
               <tr key={req.id}>
                 <td className="border px-3 py-4 text-center">{req.id}</td>
-                <td className="border px-3 py-4 text-center">{req.description}</td>
+                <td className="border px-3 py-4 text-center max-w-[200px] truncate">
+                  {req.description}
+                </td>
+
                 <td className="border px-3 py-4 text-center">{req.status}</td>
                 <td className="border px-3 py-4 text-center">
-                  {req.createdAt && format(new Date(req.createdAt), "dd/MM/yyyy")}
+                  {req.createdAt &&
+                    format(new Date(req.createdAt), "dd/MM/yyyy")}
                 </td>
-                <td className="border px-3 py-4 text-center">{req.citizenName}</td>
+                <td className="border px-3 py-4 text-center">
+                  {req.citizenName}
+                </td>
                 <td className="border px-3 py-4 text-center">{req.category}</td>
                 <td className="border px-3 h-full">
                   <UpdateComplaintStatus
